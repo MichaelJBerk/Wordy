@@ -77,6 +77,12 @@ To do print(with value1 as String, value2 as Int) output a String {
 }
 
 print(“hey")
+```
+### Command-Line Input
+```
+///"Input" is a reserved word, which acts as an always-defined variable.
+Let something be Input
+``
 
 //comment
 

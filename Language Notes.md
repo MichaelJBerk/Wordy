@@ -82,7 +82,13 @@ print(“hey")
 ```
 ///"Input" is a reserved word, which acts as an always-defined variable.
 Let something be Input
-``
+```
+### Casting
+```
+numValue as Float
+numValue as Int
+```
+
 
 //comment
 

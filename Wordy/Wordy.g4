@@ -1,5 +1,11 @@
 grammar Wordy;
 
+program: START statementList END;
+
+comment
+    : '/*'  ~('*/') '*/'
+    | '//'  ~(NEWLINE);
+
 assignString
     : LET variable BE stringTerm;
 
@@ -23,10 +29,6 @@ assignStmt: assignNum | assignString | assignStringConst | assignNumConst | assi
 castNum
     : (IDENTIFIER | factor) AS NUM_TYPE;
 
-comment
-    : '/*'  ~('*/')* '*/'
-    | '//' ~(NEWLINE)* NEWLINE;
-
 strArray
     : '[' (stringTerm)? (',' stringTerm)* ']';
 numArray
@@ -46,14 +48,17 @@ numTerm
 sayStmt
     : PRINT stringTerm;
 
+ outputStmt
+    : OUTPUT expression;
+
 defThing
     : THING IDENTIFIER '{' (assignStmt)* '}';
 
 defParam:
-    WITH IDENTIFIER AS TYPE;
+   IDENTIFIER AS TYPE;
 
 defFunc
-    : TO DO IDENTIFIER '(' (defParam)? (',' defParam)* ')' (OUTPUT An TYPE)? '{' (statementList)? OUTPUT IDENTIFIER '}';
+    : TO DO IDENTIFIER '(' WITH? (defParam)? (',' defParam)* ')' (OUTPUT AN TYPE)? '{' (statementList)? outputStmt '}';
 
 funcCall:
     IDENTIFIER '(' (IDENTIFIER | expression)? (',' IDENTIFIER | expression)* ')';
@@ -61,7 +66,8 @@ funcCall:
 //Not incorporated into `expression`, since it allows these by definition
 relOpExpr
     : numExpression relOp numExpression
-	| stringTerm relOp stringTerm;
+	| stringTerm relOp stringTerm
+	| bool relOp bool;
 
 ifStmt
     : IF (relOpExpr | bool) THEN curlyStatementList (OTHERWISE curlyStatementList)?;
@@ -75,13 +81,23 @@ loopEachStmt
 loopUntilStment
     : LOOP UNTIL (relOpExpr | bool) curlyStatementList;
 
+loopStmt
+    : loopEachStmt
+    | loopUntilStment;
+
 statementList:
-    statement (NEWLINE statement)*;
+    statement (statement)*;
 
 statement:
     assignStmt
+    | ifStmt
     | sayStmt
-    | funcCall;
+    | funcCall
+    | defFunc
+    | defThing
+    | loopStmt
+    | outputStmt
+    | comment;
 
 boolConst
     : TRUE | FALSE;
@@ -155,7 +171,9 @@ FOR: F O R;
 EACH: E A C H;
 IN: I N;
 UNTIL: U N T I L;
-An: A;
+AN: A;
+START: S T A R T;
+END: E N D;
     
 fragment A : ('a' | 'A') ;
 fragment B : ('b' | 'B') ;
@@ -203,7 +221,7 @@ REAL       : INTEGER '.' INTEGER
            | INTEGER ('^' | 'e') ('+' | '-')? INTEGER
            | INTEGER '.' INTEGER ('^' | 'e') ('+' | '-')? INTEGER
            ;
-
+//ANY  : ~[\r\n];
 NEWLINE : '\r'? '\n' -> skip  ;
 WS      : [ \t]+ -> skip ; 
 
@@ -215,5 +233,5 @@ fragment CHARACTER_CHAR : ~('\'')
                         ;
 
 fragment STRING_CHAR : QUOTE QUOTE  
-                     | ~('"')      
+                     | ~('\'')
                      ;

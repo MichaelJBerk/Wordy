@@ -1,28 +1,29 @@
-1+2
-'hey'
-'hello' + ' me'
+START
+
 Let value1 be 1
 Let value2 be 2
+Let bool1 be true
 
-// mycomment hey
-stuff
-
+/*hey*/
+//thing
 thing myThing {
     let v be 1
 }
 
-if bool is true then {
-    say "hello"
+if bool1 is true then {
+    say 'hello'
 }
 
-loop for each item in ["item1", "item2"] {
+loop for each item in ['item1', 'item2'] {
     say item
 }
 
 loop until true {
-    say "hello"
+    say 'hello'
 }
 
 To do myFunc(with v1 as String, v2 as String) output a String {
-    output "hey"
+    output 'hello'
 }
+
+END

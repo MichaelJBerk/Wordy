@@ -12,14 +12,33 @@ assignNum
 assignNumConst
     : LET variable ALWAYS BE expression;
 
-assignStmt: assignNum | assignString;
+assignBool
+    : LET variable BE bool;
+
+assignBoolConst
+    : LET variable ALWAYS BE bool;
+
+assignStmt: assignNum | assignString | assignStringConst | assignNumConst | assignBool | assignBoolConst;
+
+castNum
+    : (IDENTIFIER | factor) AS NUM_TYPE;
 
 comment
     : '/*'  ~('*/')* '*/'
     | '//' ~(NEWLINE)* NEWLINE;
 
+strArray
+    : '[' (stringTerm)? (',' stringTerm)* ']';
+numArray
+    : '[' (factor)? (',' factor)* ']';
+boolArray
+    : '[' (bool)? (',' bool)* ']';
+
+array
+    : strArray | numArray | boolArray | IDENTIFIER;
+
 stringTerm
-    : (concat | stringConstant );
+    : (concat | stringConstant | IDENTIFIER);
 
 numTerm
     : factor (mulOp factor)*;
@@ -27,14 +46,34 @@ numTerm
 sayStmt
     : PRINT stringTerm;
 
+defThing
+    : THING IDENTIFIER '{' (assignStmt)* '}';
+
 defParam:
     WITH IDENTIFIER AS TYPE;
 
 defFunc
-    : TO DO IDENTIFIER '(' (defParam)? (',' defParam)* ')' OUTPUT A TYPE '{' statementList '}';
+    : TO DO IDENTIFIER '(' (defParam)? (',' defParam)* ')' (OUTPUT An TYPE)? '{' (statementList)? OUTPUT IDENTIFIER '}';
 
 funcCall:
     IDENTIFIER '(' (IDENTIFIER | expression)? (',' IDENTIFIER | expression)* ')';
+
+//Not incorporated into `expression`, since it allows these by definition
+relOpExpr
+    : numExpression relOp numExpression
+	| stringTerm relOp stringTerm;
+
+ifStmt
+    : IF (relOpExpr | bool) THEN curlyStatementList (OTHERWISE curlyStatementList)?;
+
+curlyStatementList
+    : '{' statementList '}';
+
+loopEachStmt
+    : LOOP FOR EACH IDENTIFIER IN array curlyStatementList;
+
+loopUntilStment
+    : LOOP UNTIL (relOpExpr | bool) curlyStatementList;
 
 statementList:
     statement (NEWLINE statement)*;
@@ -44,6 +83,11 @@ statement:
     | sayStmt
     | funcCall;
 
+boolConst
+    : TRUE | FALSE;
+
+bool
+    : boolConst | IDENTIFIER;
 
 characterConstant : CHARACTER ;
 stringConstant    : STRING ;
@@ -55,11 +99,13 @@ integerConstant : INTEGER ;
 realConstant    : REAL;
 
 expression
-    : baseExpression (relOp baseExpression)?
+    : numExpression (relOp numExpression)?
     | stringTerm (relOp stringTerm)?;
 
-baseExpression
+
+numExpression
     : sign? numTerm (addOp numTerm)*
+    | castNum
     | ADD (numTerm ',')+ AND numTerm;
 
 factor
@@ -75,7 +121,10 @@ concat
     : STRING ('+'| AND) ( concat )+;
 
 TYPE:
-    STRING_TYPE | INT | FLOAT;
+    STRING_TYPE | NUM_TYPE| BOOL;
+
+NUM_TYPE:
+    INT | FLOAT;
 
 LET : L E T;
 BE: B E;
@@ -92,6 +141,21 @@ INT: I N T;
 FLOAT: F L O A T | R E A L;
 OUTPUT: O U T P U T;
 ALWAYS: A L W A Y S;
+TRUE: T R U E;
+FALSE: F A L S E;
+BOOL: B O O L | B O O L E A N;
+THING: T H I N G;
+IF: I F;
+IS: I S;
+THEN: T H E N;
+NOT: N O T;
+OTHERWISE: O T H E R W I S E;
+LOOP: L O O P;
+FOR: F O R;
+EACH: E A C H;
+IN: I N;
+UNTIL: U N T I L;
+An: A;
     
 fragment A : ('a' | 'A') ;
 fragment B : ('b' | 'B') ;
@@ -122,8 +186,8 @@ fragment Z : ('z' | 'Z') ;
 
 sign : '-' | '+' ;
        
-eqlOp: '=' | 'equals' | 'is';
-neqOp: '!=' | 'not equals' | 'is not' | 'not';
+eqlOp: '=' | 'equals' | IS;
+neqOp: '!=' | 'not equals' | IS NOT | NOT;
 ltOp: '<' | 'less than';
 gtOp: '>' | 'greater than';
 leqOp: '<=' | 'less than or equal to';

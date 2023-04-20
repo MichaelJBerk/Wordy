@@ -78,6 +78,13 @@ To do print(with value1 as String, value2 as Int) output a String {
 
 print(“hey")
 ```
+
+### Array Lookup 
+
+```
+array[i]
+```
+
 ### Command-Line Input
 ```
 ///"Input" is a reserved word, which acts as an always-defined variable.
@@ -88,7 +95,6 @@ Let something be Input
 numValue as Float
 numValue as Int
 ```
-
 
 //comment
 

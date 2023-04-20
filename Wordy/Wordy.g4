@@ -6,25 +6,45 @@ comment
     : '/*'  ~('*/') '*/'
     | '//'  ~(NEWLINE);
 
-assignString
-    : LET variable BE stringTerm;
+//assignString
+//    : LET variable BE stringTerm;
+//
+//assignStringConst
+//    : LET variable ALWAYS BE stringTerm;
+//
+//assignNum
+//    : LET variable BE expression;
+//
+//assignNumConst
+//    : LET variable ALWAYS BE expression;
+//
+//assignBool
+//    : LET variable BE bool;
+//
+//assignBoolConst
+//    : LET variable ALWAYS BE bool;
+//
+// assignArray
+//    : LET variable BE array;
+// assignArrayConst
+//    : LET variable ALWAYS BE array;
 
-assignStringConst
-    : LET variable ALWAYS BE stringTerm;
+//assignStmt: assignNum | assignString | assignStringConst | assignNumConst | assignBool | assignBoolConst | assignArray | assignArrayConst;
 
-assignNum
-    : LET variable BE expression;
+varValue:
+    expression | stringTerm | bool | array | arrayQuery | INPUT;
 
-assignNumConst
-    : LET variable ALWAYS BE expression;
+assignVar:
+    LET variable (BE | '=') varValue;
 
-assignBool
-    : LET variable BE bool;
+assignVarConst:
+    LET variable ALWAYS (BE | '=') varValue;
 
-assignBoolConst
-    : LET variable ALWAYS BE bool;
+assignStmt:
+    assignVar | assignVarConst;
 
-assignStmt: assignNum | assignString | assignStringConst | assignNumConst | assignBool | assignBoolConst;
+arrayQuery
+    : IDENTIFIER '[' (unsignedNumber | IDENTIFIER) ']';
 
 castNum
     : (IDENTIFIER | factor) AS NUM_TYPE;

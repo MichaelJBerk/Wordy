@@ -3,6 +3,7 @@ START
 Let value1 be 1
 Let value2 be 2
 Let bool1 be true
+Let sArr be ['Item1', 'Item2']
 
 /*hey*/
 //thing
@@ -18,6 +19,12 @@ loop for each item in ['item1', 'item2'] {
     say item
 }
 
+loop for each item in sArr {
+    say item
+}
+
+Let hey be sArr[0]
+
 loop until true {
     say 'hello'
 }
@@ -25,5 +32,9 @@ loop until true {
 To do myFunc(with v1 as String, v2 as String) output a String {
     output 'hello'
 }
+
+
+Let ar be arg[0]
+Let name be Input
 
 END

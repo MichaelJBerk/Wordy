@@ -8,30 +8,84 @@ else:
 # This class defines a complete listener for a parse tree produced by WordyParser.
 class WordyListener(ParseTreeListener):
 
-    # Enter a parse tree produced by WordyParser#assignString.
-    def enterAssignString(self, ctx:WordyParser.AssignStringContext):
+    # Enter a parse tree produced by WordyParser#program.
+    def enterProgram(self, ctx:WordyParser.ProgramContext):
         pass
 
-    # Exit a parse tree produced by WordyParser#assignString.
-    def exitAssignString(self, ctx:WordyParser.AssignStringContext):
-        pass
-
-
-    # Enter a parse tree produced by WordyParser#assignNum.
-    def enterAssignNum(self, ctx:WordyParser.AssignNumContext):
-        pass
-
-    # Exit a parse tree produced by WordyParser#assignNum.
-    def exitAssignNum(self, ctx:WordyParser.AssignNumContext):
+    # Exit a parse tree produced by WordyParser#program.
+    def exitProgram(self, ctx:WordyParser.ProgramContext):
         pass
 
 
-    # Enter a parse tree produced by WordyParser#comment.
-    def enterComment(self, ctx:WordyParser.CommentContext):
+    # Enter a parse tree produced by WordyParser#varValue.
+    def enterVarValue(self, ctx:WordyParser.VarValueContext):
         pass
 
-    # Exit a parse tree produced by WordyParser#comment.
-    def exitComment(self, ctx:WordyParser.CommentContext):
+    # Exit a parse tree produced by WordyParser#varValue.
+    def exitVarValue(self, ctx:WordyParser.VarValueContext):
+        pass
+
+
+    # Enter a parse tree produced by WordyParser#assignVar.
+    def enterAssignVar(self, ctx:WordyParser.AssignVarContext):
+        pass
+
+    # Exit a parse tree produced by WordyParser#assignVar.
+    def exitAssignVar(self, ctx:WordyParser.AssignVarContext):
+        pass
+
+
+    # Enter a parse tree produced by WordyParser#assignVarConst.
+    def enterAssignVarConst(self, ctx:WordyParser.AssignVarConstContext):
+        pass
+
+    # Exit a parse tree produced by WordyParser#assignVarConst.
+    def exitAssignVarConst(self, ctx:WordyParser.AssignVarConstContext):
+        pass
+
+
+    # Enter a parse tree produced by WordyParser#assignStmt.
+    def enterAssignStmt(self, ctx:WordyParser.AssignStmtContext):
+        pass
+
+    # Exit a parse tree produced by WordyParser#assignStmt.
+    def exitAssignStmt(self, ctx:WordyParser.AssignStmtContext):
+        pass
+
+
+    # Enter a parse tree produced by WordyParser#arrayQuery.
+    def enterArrayQuery(self, ctx:WordyParser.ArrayQueryContext):
+        pass
+
+    # Exit a parse tree produced by WordyParser#arrayQuery.
+    def exitArrayQuery(self, ctx:WordyParser.ArrayQueryContext):
+        pass
+
+
+    # Enter a parse tree produced by WordyParser#castNum.
+    def enterCastNum(self, ctx:WordyParser.CastNumContext):
+        pass
+
+    # Exit a parse tree produced by WordyParser#castNum.
+    def exitCastNum(self, ctx:WordyParser.CastNumContext):
+        pass
+
+
+    # Enter a parse tree produced by WordyParser#arrayTerm.
+    def enterArrayTerm(self, ctx:WordyParser.ArrayTermContext):
+        pass
+
+    # Exit a parse tree produced by WordyParser#arrayTerm.
+    def exitArrayTerm(self, ctx:WordyParser.ArrayTermContext):
+        pass
+
+
+    # Enter a parse tree produced by WordyParser#array.
+    def enterArray(self, ctx:WordyParser.ArrayContext):
+        pass
+
+    # Exit a parse tree produced by WordyParser#array.
+    def exitArray(self, ctx:WordyParser.ArrayContext):
         pass
 
 
@@ -50,6 +104,150 @@ class WordyListener(ParseTreeListener):
 
     # Exit a parse tree produced by WordyParser#numTerm.
     def exitNumTerm(self, ctx:WordyParser.NumTermContext):
+        pass
+
+
+    # Enter a parse tree produced by WordyParser#sayStmt.
+    def enterSayStmt(self, ctx:WordyParser.SayStmtContext):
+        pass
+
+    # Exit a parse tree produced by WordyParser#sayStmt.
+    def exitSayStmt(self, ctx:WordyParser.SayStmtContext):
+        pass
+
+
+    # Enter a parse tree produced by WordyParser#outputStmt.
+    def enterOutputStmt(self, ctx:WordyParser.OutputStmtContext):
+        pass
+
+    # Exit a parse tree produced by WordyParser#outputStmt.
+    def exitOutputStmt(self, ctx:WordyParser.OutputStmtContext):
+        pass
+
+
+    # Enter a parse tree produced by WordyParser#defThing.
+    def enterDefThing(self, ctx:WordyParser.DefThingContext):
+        pass
+
+    # Exit a parse tree produced by WordyParser#defThing.
+    def exitDefThing(self, ctx:WordyParser.DefThingContext):
+        pass
+
+
+    # Enter a parse tree produced by WordyParser#defParam.
+    def enterDefParam(self, ctx:WordyParser.DefParamContext):
+        pass
+
+    # Exit a parse tree produced by WordyParser#defParam.
+    def exitDefParam(self, ctx:WordyParser.DefParamContext):
+        pass
+
+
+    # Enter a parse tree produced by WordyParser#defFunc.
+    def enterDefFunc(self, ctx:WordyParser.DefFuncContext):
+        pass
+
+    # Exit a parse tree produced by WordyParser#defFunc.
+    def exitDefFunc(self, ctx:WordyParser.DefFuncContext):
+        pass
+
+
+    # Enter a parse tree produced by WordyParser#funcCall.
+    def enterFuncCall(self, ctx:WordyParser.FuncCallContext):
+        pass
+
+    # Exit a parse tree produced by WordyParser#funcCall.
+    def exitFuncCall(self, ctx:WordyParser.FuncCallContext):
+        pass
+
+
+    # Enter a parse tree produced by WordyParser#relOpExpr.
+    def enterRelOpExpr(self, ctx:WordyParser.RelOpExprContext):
+        pass
+
+    # Exit a parse tree produced by WordyParser#relOpExpr.
+    def exitRelOpExpr(self, ctx:WordyParser.RelOpExprContext):
+        pass
+
+
+    # Enter a parse tree produced by WordyParser#ifStmt.
+    def enterIfStmt(self, ctx:WordyParser.IfStmtContext):
+        pass
+
+    # Exit a parse tree produced by WordyParser#ifStmt.
+    def exitIfStmt(self, ctx:WordyParser.IfStmtContext):
+        pass
+
+
+    # Enter a parse tree produced by WordyParser#curlyStatementList.
+    def enterCurlyStatementList(self, ctx:WordyParser.CurlyStatementListContext):
+        pass
+
+    # Exit a parse tree produced by WordyParser#curlyStatementList.
+    def exitCurlyStatementList(self, ctx:WordyParser.CurlyStatementListContext):
+        pass
+
+
+    # Enter a parse tree produced by WordyParser#loopEachStmt.
+    def enterLoopEachStmt(self, ctx:WordyParser.LoopEachStmtContext):
+        pass
+
+    # Exit a parse tree produced by WordyParser#loopEachStmt.
+    def exitLoopEachStmt(self, ctx:WordyParser.LoopEachStmtContext):
+        pass
+
+
+    # Enter a parse tree produced by WordyParser#loopUntilStment.
+    def enterLoopUntilStment(self, ctx:WordyParser.LoopUntilStmentContext):
+        pass
+
+    # Exit a parse tree produced by WordyParser#loopUntilStment.
+    def exitLoopUntilStment(self, ctx:WordyParser.LoopUntilStmentContext):
+        pass
+
+
+    # Enter a parse tree produced by WordyParser#loopStmt.
+    def enterLoopStmt(self, ctx:WordyParser.LoopStmtContext):
+        pass
+
+    # Exit a parse tree produced by WordyParser#loopStmt.
+    def exitLoopStmt(self, ctx:WordyParser.LoopStmtContext):
+        pass
+
+
+    # Enter a parse tree produced by WordyParser#statementList.
+    def enterStatementList(self, ctx:WordyParser.StatementListContext):
+        pass
+
+    # Exit a parse tree produced by WordyParser#statementList.
+    def exitStatementList(self, ctx:WordyParser.StatementListContext):
+        pass
+
+
+    # Enter a parse tree produced by WordyParser#statement.
+    def enterStatement(self, ctx:WordyParser.StatementContext):
+        pass
+
+    # Exit a parse tree produced by WordyParser#statement.
+    def exitStatement(self, ctx:WordyParser.StatementContext):
+        pass
+
+
+    # Enter a parse tree produced by WordyParser#boolConst.
+    def enterBoolConst(self, ctx:WordyParser.BoolConstContext):
+        pass
+
+    # Exit a parse tree produced by WordyParser#boolConst.
+    def exitBoolConst(self, ctx:WordyParser.BoolConstContext):
+        pass
+
+
+    # Enter a parse tree produced by WordyParser#bool.
+    def enterBool(self, ctx:WordyParser.BoolContext):
+        pass
+
+    # Exit a parse tree produced by WordyParser#bool.
+    def exitBool(self, ctx:WordyParser.BoolContext):
         pass
 
 
@@ -125,12 +323,12 @@ class WordyListener(ParseTreeListener):
         pass
 
 
-    # Enter a parse tree produced by WordyParser#baseExpression.
-    def enterBaseExpression(self, ctx:WordyParser.BaseExpressionContext):
+    # Enter a parse tree produced by WordyParser#numExpression.
+    def enterNumExpression(self, ctx:WordyParser.NumExpressionContext):
         pass
 
-    # Exit a parse tree produced by WordyParser#baseExpression.
-    def exitBaseExpression(self, ctx:WordyParser.BaseExpressionContext):
+    # Exit a parse tree produced by WordyParser#numExpression.
+    def exitNumExpression(self, ctx:WordyParser.NumExpressionContext):
         pass
 
 

@@ -2,10 +2,6 @@ grammar Wordy;
 
 program: START statementList END;
 
-comment
-    : '/*'  ~('*/') '*/'
-    | '//'  ~(NEWLINE);
-
 //assignString
 //    : LET variable BE stringTerm;
 //
@@ -49,16 +45,18 @@ arrayQuery
 castNum
     : (IDENTIFIER | factor) AS NUM_TYPE;
 
-strArray
-    : '[' (stringTerm)? (',' stringTerm)* ']';
-numArray
-    : '[' (factor)? (',' factor)* ']';
-boolArray
-    : '[' (bool)? (',' bool)* ']';
+//strArray
+//    : '[' (stringTerm)? (',' stringTerm)* ']';
+//numArray
+//    : '[' (factor)? (',' factor)* ']';
+//boolArray
+//    : '[' (bool)? (',' bool)* ']';
+
+arrayTerm
+    : stringTerm | bool | IDENTIFIER;
 
 array
-    : strArray | numArray | boolArray | IDENTIFIER;
-
+    : '[' (arrayTerm) ? (',' arrayTerm)* ']';
 stringTerm
     : (concat | stringConstant | IDENTIFIER);
 
@@ -69,7 +67,7 @@ sayStmt
     : PRINT stringTerm;
 
  outputStmt
-    : OUTPUT expression;
+    : OUTPUT (expression | IDENTIFIER);
 
 defThing
     : THING IDENTIFIER '{' (assignStmt)* '}';
@@ -96,7 +94,7 @@ curlyStatementList
     : '{' statementList '}';
 
 loopEachStmt
-    : LOOP FOR EACH IDENTIFIER IN array curlyStatementList;
+    : LOOP FOR EACH IDENTIFIER IN (array | IDENTIFIER) curlyStatementList;
 
 loopUntilStment
     : LOOP UNTIL (relOpExpr | bool) curlyStatementList;
@@ -115,9 +113,7 @@ statement:
     | funcCall
     | defFunc
     | defThing
-    | loopStmt
-    | outputStmt
-    | comment;
+    | loopStmt;
 
 boolConst
     : TRUE | FALSE;
@@ -135,8 +131,8 @@ integerConstant : INTEGER ;
 realConstant    : REAL;
 
 expression
-    : numExpression (relOp numExpression)?
-    | stringTerm (relOp stringTerm)?;
+    : stringTerm (relOp stringTerm)?
+    | numExpression (relOp numExpression)?;
 
 
 numExpression
@@ -234,6 +230,7 @@ relOp: eqlOp | neqOp | ltOp | leqOp | gtOp | geqOp ;
 addOp : '+' | '-' ;
 mulOp : '*' | '/' ;
 
+COMMENT: '/*' .*? '*/' -> skip;
 IDENTIFIER : [a-zA-Z][a-zA-Z0-9]* ;
 INTEGER : [0-9]+;
 
@@ -243,15 +240,16 @@ REAL       : INTEGER '.' INTEGER
            ;
 //ANY  : ~[\r\n];
 NEWLINE : '\r'? '\n' -> skip  ;
-WS      : [ \t]+ -> skip ; 
+WS      : [ \t]+ -> skip ;
+
 
 QUOTE     : '\'' ;
 CHARACTER : QUOTE CHARACTER_CHAR QUOTE ;
 STRING    : QUOTE STRING_CHAR* QUOTE ;
 
-fragment CHARACTER_CHAR : ~('\'')   
+fragment CHARACTER_CHAR : ~('\'')
                         ;
 
-fragment STRING_CHAR : QUOTE QUOTE  
-                     | ~('\'')
+fragment STRING_CHAR
+                     : ~('\'')
                      ;

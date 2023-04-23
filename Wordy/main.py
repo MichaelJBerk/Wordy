@@ -1,3 +1,4 @@
+import antlr4
 from antlr4 import *
 from WordyLexer import WordyLexer
 
@@ -9,3 +10,4 @@ tokens = lexer.getAllTokens()
 
 for t in tokens:
     print(t.text, t.type)
+

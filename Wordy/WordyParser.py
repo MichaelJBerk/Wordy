@@ -1,4 +1,4 @@
-# Generated from Wordy.g4 by ANTLR 4.12.0
+# Generated from /Users/michaelberk/Documents/CS Work/Wordy/Wordy/Wordy.g4 by ANTLR 4.12.0
 # encoding: utf-8
 from antlr4 import *
 from io import StringIO
@@ -362,13 +362,11 @@ class WordyParser ( Parser ):
         def getRuleIndex(self):
             return WordyParser.RULE_program
 
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterProgram" ):
-                listener.enterProgram(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitProgram" ):
-                listener.exitProgram(self)
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitProgram" ):
+                return visitor.visitProgram(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -427,13 +425,11 @@ class WordyParser ( Parser ):
         def getRuleIndex(self):
             return WordyParser.RULE_varValue
 
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterVarValue" ):
-                listener.enterVarValue(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitVarValue" ):
-                listener.exitVarValue(self)
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitVarValue" ):
+                return visitor.visitVarValue(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -516,13 +512,11 @@ class WordyParser ( Parser ):
         def getRuleIndex(self):
             return WordyParser.RULE_assignVar
 
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterAssignVar" ):
-                listener.enterAssignVar(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitAssignVar" ):
-                listener.exitAssignVar(self)
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitAssignVar" ):
+                return visitor.visitAssignVar(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -583,13 +577,11 @@ class WordyParser ( Parser ):
         def getRuleIndex(self):
             return WordyParser.RULE_assignVarConst
 
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterAssignVarConst" ):
-                listener.enterAssignVarConst(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitAssignVarConst" ):
-                listener.exitAssignVarConst(self)
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitAssignVarConst" ):
+                return visitor.visitAssignVarConst(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -643,13 +635,11 @@ class WordyParser ( Parser ):
         def getRuleIndex(self):
             return WordyParser.RULE_assignStmt
 
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterAssignStmt" ):
-                listener.enterAssignStmt(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitAssignStmt" ):
-                listener.exitAssignStmt(self)
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitAssignStmt" ):
+                return visitor.visitAssignStmt(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -704,13 +694,11 @@ class WordyParser ( Parser ):
         def getRuleIndex(self):
             return WordyParser.RULE_arrayQuery
 
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterArrayQuery" ):
-                listener.enterArrayQuery(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitArrayQuery" ):
-                listener.exitArrayQuery(self)
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitArrayQuery" ):
+                return visitor.visitArrayQuery(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -773,13 +761,11 @@ class WordyParser ( Parser ):
         def getRuleIndex(self):
             return WordyParser.RULE_castNum
 
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterCastNum" ):
-                listener.enterCastNum(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitCastNum" ):
-                listener.exitCastNum(self)
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitCastNum" ):
+                return visitor.visitCastNum(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -838,13 +824,11 @@ class WordyParser ( Parser ):
         def getRuleIndex(self):
             return WordyParser.RULE_arrayTerm
 
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterArrayTerm" ):
-                listener.enterArrayTerm(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitArrayTerm" ):
-                listener.exitArrayTerm(self)
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitArrayTerm" ):
+                return visitor.visitArrayTerm(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -902,13 +886,11 @@ class WordyParser ( Parser ):
         def getRuleIndex(self):
             return WordyParser.RULE_array
 
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterArray" ):
-                listener.enterArray(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitArray" ):
-                listener.exitArray(self)
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitArray" ):
+                return visitor.visitArray(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -974,13 +956,11 @@ class WordyParser ( Parser ):
         def getRuleIndex(self):
             return WordyParser.RULE_stringTerm
 
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterStringTerm" ):
-                listener.enterStringTerm(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitStringTerm" ):
-                listener.exitStringTerm(self)
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitStringTerm" ):
+                return visitor.visitStringTerm(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -1043,13 +1023,11 @@ class WordyParser ( Parser ):
         def getRuleIndex(self):
             return WordyParser.RULE_numTerm
 
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterNumTerm" ):
-                listener.enterNumTerm(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitNumTerm" ):
-                listener.exitNumTerm(self)
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitNumTerm" ):
+                return visitor.visitNumTerm(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -1101,13 +1079,11 @@ class WordyParser ( Parser ):
         def getRuleIndex(self):
             return WordyParser.RULE_sayStmt
 
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterSayStmt" ):
-                listener.enterSayStmt(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitSayStmt" ):
-                listener.exitSayStmt(self)
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitSayStmt" ):
+                return visitor.visitSayStmt(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -1151,13 +1127,11 @@ class WordyParser ( Parser ):
         def getRuleIndex(self):
             return WordyParser.RULE_outputStmt
 
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterOutputStmt" ):
-                listener.enterOutputStmt(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitOutputStmt" ):
-                listener.exitOutputStmt(self)
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitOutputStmt" ):
+                return visitor.visitOutputStmt(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -1216,13 +1190,11 @@ class WordyParser ( Parser ):
         def getRuleIndex(self):
             return WordyParser.RULE_defThing
 
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterDefThing" ):
-                listener.enterDefThing(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitDefThing" ):
-                listener.exitDefThing(self)
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitDefThing" ):
+                return visitor.visitDefThing(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -1280,13 +1252,11 @@ class WordyParser ( Parser ):
         def getRuleIndex(self):
             return WordyParser.RULE_defParam
 
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterDefParam" ):
-                listener.enterDefParam(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitDefParam" ):
-                listener.exitDefParam(self)
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitDefParam" ):
+                return visitor.visitDefParam(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -1358,13 +1328,11 @@ class WordyParser ( Parser ):
         def getRuleIndex(self):
             return WordyParser.RULE_defFunc
 
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterDefFunc" ):
-                listener.enterDefFunc(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitDefFunc" ):
-                listener.exitDefFunc(self)
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitDefFunc" ):
+                return visitor.visitDefFunc(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -1472,13 +1440,11 @@ class WordyParser ( Parser ):
         def getRuleIndex(self):
             return WordyParser.RULE_funcCall
 
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterFuncCall" ):
-                listener.enterFuncCall(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitFuncCall" ):
-                listener.exitFuncCall(self)
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitFuncCall" ):
+                return visitor.visitFuncCall(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -1576,13 +1542,11 @@ class WordyParser ( Parser ):
         def getRuleIndex(self):
             return WordyParser.RULE_relOpExpr
 
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterRelOpExpr" ):
-                listener.enterRelOpExpr(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitRelOpExpr" ):
-                listener.exitRelOpExpr(self)
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitRelOpExpr" ):
+                return visitor.visitRelOpExpr(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -1669,13 +1633,11 @@ class WordyParser ( Parser ):
         def getRuleIndex(self):
             return WordyParser.RULE_ifStmt
 
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterIfStmt" ):
-                listener.enterIfStmt(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitIfStmt" ):
-                listener.exitIfStmt(self)
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitIfStmt" ):
+                return visitor.visitIfStmt(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -1740,13 +1702,11 @@ class WordyParser ( Parser ):
         def getRuleIndex(self):
             return WordyParser.RULE_curlyStatementList
 
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterCurlyStatementList" ):
-                listener.enterCurlyStatementList(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitCurlyStatementList" ):
-                listener.exitCurlyStatementList(self)
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitCurlyStatementList" ):
+                return visitor.visitCurlyStatementList(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -1808,13 +1768,11 @@ class WordyParser ( Parser ):
         def getRuleIndex(self):
             return WordyParser.RULE_loopEachStmt
 
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterLoopEachStmt" ):
-                listener.enterLoopEachStmt(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitLoopEachStmt" ):
-                listener.exitLoopEachStmt(self)
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitLoopEachStmt" ):
+                return visitor.visitLoopEachStmt(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -1888,13 +1846,11 @@ class WordyParser ( Parser ):
         def getRuleIndex(self):
             return WordyParser.RULE_loopUntilStment
 
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterLoopUntilStment" ):
-                listener.enterLoopUntilStment(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitLoopUntilStment" ):
-                listener.exitLoopUntilStment(self)
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitLoopUntilStment" ):
+                return visitor.visitLoopUntilStment(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -1952,13 +1908,11 @@ class WordyParser ( Parser ):
         def getRuleIndex(self):
             return WordyParser.RULE_loopStmt
 
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterLoopStmt" ):
-                listener.enterLoopStmt(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitLoopStmt" ):
-                listener.exitLoopStmt(self)
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitLoopStmt" ):
+                return visitor.visitLoopStmt(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -2010,13 +1964,11 @@ class WordyParser ( Parser ):
         def getRuleIndex(self):
             return WordyParser.RULE_statementList
 
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterStatementList" ):
-                listener.enterStatementList(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitStatementList" ):
-                listener.exitStatementList(self)
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitStatementList" ):
+                return visitor.visitStatementList(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -2087,13 +2039,11 @@ class WordyParser ( Parser ):
         def getRuleIndex(self):
             return WordyParser.RULE_statement
 
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterStatement" ):
-                listener.enterStatement(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitStatement" ):
-                listener.exitStatement(self)
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitStatement" ):
+                return visitor.visitStatement(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -2169,13 +2119,11 @@ class WordyParser ( Parser ):
         def getRuleIndex(self):
             return WordyParser.RULE_boolConst
 
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterBoolConst" ):
-                listener.enterBoolConst(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitBoolConst" ):
-                listener.exitBoolConst(self)
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitBoolConst" ):
+                return visitor.visitBoolConst(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -2220,13 +2168,11 @@ class WordyParser ( Parser ):
         def getRuleIndex(self):
             return WordyParser.RULE_bool
 
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterBool" ):
-                listener.enterBool(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitBool" ):
-                listener.exitBool(self)
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitBool" ):
+                return visitor.visitBool(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -2274,13 +2220,11 @@ class WordyParser ( Parser ):
         def getRuleIndex(self):
             return WordyParser.RULE_characterConstant
 
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterCharacterConstant" ):
-                listener.enterCharacterConstant(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitCharacterConstant" ):
-                listener.exitCharacterConstant(self)
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitCharacterConstant" ):
+                return visitor.visitCharacterConstant(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -2315,13 +2259,11 @@ class WordyParser ( Parser ):
         def getRuleIndex(self):
             return WordyParser.RULE_stringConstant
 
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterStringConstant" ):
-                listener.enterStringConstant(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitStringConstant" ):
-                listener.exitStringConstant(self)
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitStringConstant" ):
+                return visitor.visitStringConstant(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -2356,13 +2298,11 @@ class WordyParser ( Parser ):
         def getRuleIndex(self):
             return WordyParser.RULE_variable
 
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterVariable" ):
-                listener.enterVariable(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitVariable" ):
-                listener.exitVariable(self)
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitVariable" ):
+                return visitor.visitVariable(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -2402,13 +2342,11 @@ class WordyParser ( Parser ):
         def getRuleIndex(self):
             return WordyParser.RULE_number
 
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterNumber" ):
-                listener.enterNumber(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitNumber" ):
-                listener.exitNumber(self)
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitNumber" ):
+                return visitor.visitNumber(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -2457,13 +2395,11 @@ class WordyParser ( Parser ):
         def getRuleIndex(self):
             return WordyParser.RULE_unsignedNumber
 
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterUnsignedNumber" ):
-                listener.enterUnsignedNumber(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitUnsignedNumber" ):
-                listener.exitUnsignedNumber(self)
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitUnsignedNumber" ):
+                return visitor.visitUnsignedNumber(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -2511,13 +2447,11 @@ class WordyParser ( Parser ):
         def getRuleIndex(self):
             return WordyParser.RULE_integerConstant
 
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterIntegerConstant" ):
-                listener.enterIntegerConstant(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitIntegerConstant" ):
-                listener.exitIntegerConstant(self)
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitIntegerConstant" ):
+                return visitor.visitIntegerConstant(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -2552,13 +2486,11 @@ class WordyParser ( Parser ):
         def getRuleIndex(self):
             return WordyParser.RULE_realConstant
 
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterRealConstant" ):
-                listener.enterRealConstant(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitRealConstant" ):
-                listener.exitRealConstant(self)
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitRealConstant" ):
+                return visitor.visitRealConstant(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -2608,13 +2540,11 @@ class WordyParser ( Parser ):
         def getRuleIndex(self):
             return WordyParser.RULE_expression
 
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterExpression" ):
-                listener.enterExpression(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitExpression" ):
-                listener.exitExpression(self)
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitExpression" ):
+                return visitor.visitExpression(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -2707,13 +2637,11 @@ class WordyParser ( Parser ):
         def getRuleIndex(self):
             return WordyParser.RULE_numExpression
 
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterNumExpression" ):
-                listener.enterNumExpression(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitNumExpression" ):
-                listener.exitNumExpression(self)
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitNumExpression" ):
+                return visitor.visitNumExpression(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -2821,13 +2749,11 @@ class WordyParser ( Parser ):
             return self.getTypedRuleContext(WordyParser.NumberContext,0)
 
 
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterNumberFactor" ):
-                listener.enterNumberFactor(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitNumberFactor" ):
-                listener.exitNumberFactor(self)
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitNumberFactor" ):
+                return visitor.visitNumberFactor(self)
+            else:
+                return visitor.visitChildren(self)
 
 
     class StringFactorContext(FactorContext):
@@ -2840,13 +2766,11 @@ class WordyParser ( Parser ):
             return self.getTypedRuleContext(WordyParser.StringConstantContext,0)
 
 
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterStringFactor" ):
-                listener.enterStringFactor(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitStringFactor" ):
-                listener.exitStringFactor(self)
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitStringFactor" ):
+                return visitor.visitStringFactor(self)
+            else:
+                return visitor.visitChildren(self)
 
 
     class CharacterFactorContext(FactorContext):
@@ -2859,13 +2783,11 @@ class WordyParser ( Parser ):
             return self.getTypedRuleContext(WordyParser.CharacterConstantContext,0)
 
 
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterCharacterFactor" ):
-                listener.enterCharacterFactor(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitCharacterFactor" ):
-                listener.exitCharacterFactor(self)
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitCharacterFactor" ):
+                return visitor.visitCharacterFactor(self)
+            else:
+                return visitor.visitChildren(self)
 
 
     class ParenthesizedExpressionContext(FactorContext):
@@ -2878,13 +2800,11 @@ class WordyParser ( Parser ):
             return self.getTypedRuleContext(WordyParser.ExpressionContext,0)
 
 
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterParenthesizedExpression" ):
-                listener.enterParenthesizedExpression(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitParenthesizedExpression" ):
-                listener.exitParenthesizedExpression(self)
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitParenthesizedExpression" ):
+                return visitor.visitParenthesizedExpression(self)
+            else:
+                return visitor.visitChildren(self)
 
 
     class VariableFactorContext(FactorContext):
@@ -2897,13 +2817,11 @@ class WordyParser ( Parser ):
             return self.getTypedRuleContext(WordyParser.VariableContext,0)
 
 
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterVariableFactor" ):
-                listener.enterVariableFactor(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitVariableFactor" ):
-                listener.exitVariableFactor(self)
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitVariableFactor" ):
+                return visitor.visitVariableFactor(self)
+            else:
+                return visitor.visitChildren(self)
 
 
     class NotFactorContext(FactorContext):
@@ -2919,13 +2837,11 @@ class WordyParser ( Parser ):
             return self.getTypedRuleContext(WordyParser.FactorContext,0)
 
 
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterNotFactor" ):
-                listener.enterNotFactor(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitNotFactor" ):
-                listener.exitNotFactor(self)
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitNotFactor" ):
+                return visitor.visitNotFactor(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -3014,13 +2930,11 @@ class WordyParser ( Parser ):
         def getRuleIndex(self):
             return WordyParser.RULE_concat
 
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterConcat" ):
-                listener.enterConcat(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitConcat" ):
-                listener.exitConcat(self)
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitConcat" ):
+                return visitor.visitConcat(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -3075,13 +2989,11 @@ class WordyParser ( Parser ):
         def getRuleIndex(self):
             return WordyParser.RULE_sign
 
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterSign" ):
-                listener.enterSign(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitSign" ):
-                listener.exitSign(self)
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitSign" ):
+                return visitor.visitSign(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -3122,13 +3034,11 @@ class WordyParser ( Parser ):
         def getRuleIndex(self):
             return WordyParser.RULE_eqlOp
 
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterEqlOp" ):
-                listener.enterEqlOp(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitEqlOp" ):
-                listener.exitEqlOp(self)
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitEqlOp" ):
+                return visitor.visitEqlOp(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -3172,13 +3082,11 @@ class WordyParser ( Parser ):
         def getRuleIndex(self):
             return WordyParser.RULE_neqOp
 
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterNeqOp" ):
-                listener.enterNeqOp(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitNeqOp" ):
-                listener.exitNeqOp(self)
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitNeqOp" ):
+                return visitor.visitNeqOp(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -3236,13 +3144,11 @@ class WordyParser ( Parser ):
         def getRuleIndex(self):
             return WordyParser.RULE_ltOp
 
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterLtOp" ):
-                listener.enterLtOp(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitLtOp" ):
-                listener.exitLtOp(self)
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitLtOp" ):
+                return visitor.visitLtOp(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -3281,13 +3187,11 @@ class WordyParser ( Parser ):
         def getRuleIndex(self):
             return WordyParser.RULE_gtOp
 
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterGtOp" ):
-                listener.enterGtOp(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitGtOp" ):
-                listener.exitGtOp(self)
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitGtOp" ):
+                return visitor.visitGtOp(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -3326,13 +3230,11 @@ class WordyParser ( Parser ):
         def getRuleIndex(self):
             return WordyParser.RULE_leqOp
 
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterLeqOp" ):
-                listener.enterLeqOp(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitLeqOp" ):
-                listener.exitLeqOp(self)
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitLeqOp" ):
+                return visitor.visitLeqOp(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -3371,13 +3273,11 @@ class WordyParser ( Parser ):
         def getRuleIndex(self):
             return WordyParser.RULE_geqOp
 
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterGeqOp" ):
-                listener.enterGeqOp(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitGeqOp" ):
-                listener.exitGeqOp(self)
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitGeqOp" ):
+                return visitor.visitGeqOp(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -3439,13 +3339,11 @@ class WordyParser ( Parser ):
         def getRuleIndex(self):
             return WordyParser.RULE_relOp
 
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterRelOp" ):
-                listener.enterRelOp(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitRelOp" ):
-                listener.exitRelOp(self)
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitRelOp" ):
+                return visitor.visitRelOp(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -3515,13 +3413,11 @@ class WordyParser ( Parser ):
         def getRuleIndex(self):
             return WordyParser.RULE_addOp
 
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterAddOp" ):
-                listener.enterAddOp(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitAddOp" ):
-                listener.exitAddOp(self)
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitAddOp" ):
+                return visitor.visitAddOp(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -3560,13 +3456,11 @@ class WordyParser ( Parser ):
         def getRuleIndex(self):
             return WordyParser.RULE_mulOp
 
-        def enterRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "enterMulOp" ):
-                listener.enterMulOp(self)
-
-        def exitRule(self, listener:ParseTreeListener):
-            if hasattr( listener, "exitMulOp" ):
-                listener.exitMulOp(self)
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitMulOp" ):
+                return visitor.visitMulOp(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 

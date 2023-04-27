@@ -87,8 +87,11 @@ array[i]
 
 ### Command-Line Input
 ```
-///"Input" is a reserved word, which acts as an always-defined variable.
-Let something be Input
+Let item = argument[0]
+//wait for user input
+Let hey be input
+Let hye2 be notInput
+
 ```
 ### Casting
 ```
@@ -96,6 +99,13 @@ numValue as Float
 numValue as Int
 ```
 
+### Comments
+```
 //comment
 
+/*
+comment
+*/
+
 ```
+

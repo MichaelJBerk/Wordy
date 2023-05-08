@@ -3,9 +3,9 @@ from SymTableStuff.SymTableEntry import *
 class SymTable:
     #TODO: Implement dictionary put/get methods
 
-    nestingLevel = 0;
-    slotNumber = -1;
-    unnamedIndex = 0;
+    nestingLevel = 0
+    slotNumber = -1
+    unnamedIndex = 0
 
     UNNAMED_PREFIX = "_unnamed_"
     serialVersionUID = 0

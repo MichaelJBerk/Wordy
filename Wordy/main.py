@@ -7,7 +7,12 @@ from SemVisitor import SemVisitor
 from SymTableStuff.SymTable import *
 def main(args):
 
-    code = open('visitTest.wordy', 'r').read()
+    if len(args) < 2:
+        file = "visitTest.wordy"
+    else:
+        file = args[1]
+
+    code = open(file, 'r').read()
 
     codeStream = InputStream(code)
     lexer = WordyLexer(codeStream)

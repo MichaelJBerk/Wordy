@@ -44,5 +44,6 @@ class SymTableStack:
         i = self.currentNestingLevel
         while (i >= 0) and (foundEntry is None):
             foundEntry = self.stack[i].lookup(name)
+            i -= 1
 
         return foundEntry

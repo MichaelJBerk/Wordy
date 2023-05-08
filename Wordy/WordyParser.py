@@ -1,8 +1,8 @@
-# Generated from /Users/michaelberk/Documents/CS Work/Wordy/Wordy/Wordy.g4 by ANTLR 4.12.0
+# Generated from Wordy.g4 by ANTLR 4.12.0
 # encoding: utf-8
 from antlr4 import *
+from io import StringIO
 import sys
-
 if sys.version_info[1] > 5:
 	from typing import TextIO
 else:
@@ -752,7 +752,6 @@ class WordyParser ( Parser ):
             return self.getToken(WordyParser.NUM_TYPE, 0)
 
         def IDENTIFIER(self):
-            #TODO: if identifier doesn't exist, throw undeclared id error
             return self.getToken(WordyParser.IDENTIFIER, 0)
 
         def factor(self):
@@ -820,7 +819,6 @@ class WordyParser ( Parser ):
 
 
         def IDENTIFIER(self):
-            #TODO: if identifier doesn't exist, throw undeclared id error
             return self.getToken(WordyParser.IDENTIFIER, 0)
 
         def getRuleIndex(self):
@@ -953,7 +951,6 @@ class WordyParser ( Parser ):
 
 
         def IDENTIFIER(self):
-            #TODO: if identifier doesn't exist, throw undeclared id error
             return self.getToken(WordyParser.IDENTIFIER, 0)
 
         def getRuleIndex(self):
@@ -1125,7 +1122,6 @@ class WordyParser ( Parser ):
 
 
         def IDENTIFIER(self):
-            #TODO: if identifier doesn't exist, throw undeclared id error
             return self.getToken(WordyParser.IDENTIFIER, 0)
 
         def getRuleIndex(self):
@@ -1182,7 +1178,6 @@ class WordyParser ( Parser ):
             return self.getToken(WordyParser.THING, 0)
 
         def IDENTIFIER(self):
-            #TODO: if identifier doesn't exist, throw undeclared id error
             return self.getToken(WordyParser.IDENTIFIER, 0)
 
         def assignStmt(self, i:int=None):
@@ -1246,7 +1241,6 @@ class WordyParser ( Parser ):
             self.parser = parser
 
         def IDENTIFIER(self):
-            #TODO: if identifier doesn't exist, throw undeclared id error
             return self.getToken(WordyParser.IDENTIFIER, 0)
 
         def AS(self):
@@ -1302,7 +1296,6 @@ class WordyParser ( Parser ):
             return self.getToken(WordyParser.DO, 0)
 
         def IDENTIFIER(self):
-            #TODO: if identifier doesn't exist, throw undeclared id error
             return self.getToken(WordyParser.IDENTIFIER, 0)
 
         def outputStmt(self):
@@ -2170,8 +2163,6 @@ class WordyParser ( Parser ):
 
 
         def IDENTIFIER(self):
-
-            #TODO: if identifier doesn't exist, throw undeclared id error
             return self.getToken(WordyParser.IDENTIFIER, 0)
 
         def getRuleIndex(self):
@@ -2302,7 +2293,6 @@ class WordyParser ( Parser ):
             self.parser = parser
 
         def IDENTIFIER(self):
-            #TODO: if identifier doesn't exist, throw undeclared id error
             return self.getToken(WordyParser.IDENTIFIER, 0)
 
         def getRuleIndex(self):

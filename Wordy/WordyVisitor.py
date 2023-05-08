@@ -1,4 +1,4 @@
-# Generated from /Users/michaelberk/Documents/CS Work/Wordy/Wordy/Wordy.g4 by ANTLR 4.12.0
+# Generated from Wordy.g4 by ANTLR 4.12.0
 from antlr4 import *
 if __name__ is not None and "." in __name__:
     from .WordyParser import WordyParser

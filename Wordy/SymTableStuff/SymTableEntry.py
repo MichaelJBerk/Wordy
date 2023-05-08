@@ -1,4 +1,3 @@
-import SymTable
 from enum import Enum
 
 
@@ -20,14 +19,17 @@ class Kind(Enum):
 
 class SymTableEntry:
     # name: str
-    # symTable: SymTable.SymTable
+    # symTable: SymTableStuff.SymTableStuff
     # lineNumbers = []
+    kind: Kind
+    value: any
 
-    def __init__(self, name, kind: Kind, symTable):
+    def __init__(self, name, kind: Kind, symTable, value):
         self.name = name
         self.kind = kind
         self.symTable = symTable
         self.lineNumbers = []
+        self.value = value
         match kind:
             case Kind.CONSTANT | Kind.ENUMERATION_CONSTANT | Kind.VARIABLE | Kind.RECORD_FIELD | Kind.VALUE_PARAMETER:
                 #ValueInfo
@@ -36,8 +38,8 @@ class SymTableEntry:
             case Kind.PROGRAM | Kind.PROCEDURE | Kind.FUNCTION:
                 #RoutineInfo
                 self.info = RoutineInfo()
-                info.parameters = []
-                info.subroutines = []
+                self.info.parameters = []
+                self.info.subroutines = []
                 return
             case _:
                 return

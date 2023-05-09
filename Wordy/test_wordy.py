@@ -1,5 +1,6 @@
 # content of test_sample.py
 import pytest
+from WordyErrors import *
 
 import main
 
@@ -9,50 +10,54 @@ def runCode(wordy):
 
 def test_concat():
     code = """
-    Let var be ('hey' + 'hwy3')
+    Let tconcat be ('hey' + 'hwy3')
     """
     runCode(code)
 
 def test_mul():
     code = """
-    Let val1 be 2 + 2
-Let val2 be 3
-Let val3 be val2 * val2
+    Let testMul1 be 2 + 2
+    Let testMul2 be 3
+    Let testMul3 be testMul2 * testMul2
     """
     runCode(code)
 
 def test_print():
     code = """
-    Let name be 'Michael'
-print name
-print 'Hello, ' + name
+    Let printName be 'Michael'
+print printName
+print 'Hello, ' + printName
     """
     runCode(code)
-
 def test_redeclaredConst():
     constCode = """
-    Let var be 2
-    Let var always be 3
+    Let trc1 be 2
+    Let trc1 always be 3
     """
-    with pytest.raises(ValueError) as error:
+    with pytest.raises(ERROR_REDECLARED_ID):
         runCode(constCode)
-        assert "Redeclared identifier" in str(error.value)
 
 def test_redeclaredVar():
     varCode = """
-        Let var always be 2
-        let var be 3
+        Let trv1 always be 2
+        let trv1 be 3
         """
-    with pytest.raises(ValueError) as error:
+    with pytest.raises(ERROR_REDECLARED_ID):
         runCode(varCode)
-        assert "Redeclared identifier" in str(error.value)
 
 def test_undeclared():
     code = """
-    print val1
+    print testUndeclared
     """
-    with pytest.raises(ValueError) as error:
+    with pytest.raises(ERROR_UNDECLARED_ID):
         runCode(code)
-        assert "Undeclared identifier" in str(error.value)
+    #TODO: Test with factor/number
+
+def test_mustBeProcedure():
+    code = """
+     test_mustBeProcedure1()
+     """
+    with pytest.raises(ERROR_NAME_MUST_BE_PROCEDURE):
+        runCode(code)
 
 

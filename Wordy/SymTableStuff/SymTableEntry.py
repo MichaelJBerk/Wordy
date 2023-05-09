@@ -24,12 +24,11 @@ class SymTableEntry:
     kind: Kind
     value: any
 
-    def __init__(self, name, kind: Kind, symTable, value):
+    def __init__(self, name, kind: Kind, symTable):
         self.name = name
         self.kind = kind
         self.symTable = symTable
         self.lineNumbers = []
-        self.value = value
         match kind:
             case Kind.CONSTANT | Kind.ENUMERATION_CONSTANT | Kind.VARIABLE | Kind.RECORD_FIELD | Kind.VALUE_PARAMETER:
                 #ValueInfo

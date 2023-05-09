@@ -1,5 +1,5 @@
 from SymTableStuff.SymTableEntry import *
-
+from WordyParser import *
 class SymTable:
     #TODO: Implement dictionary put/get methods
 
@@ -12,10 +12,11 @@ class SymTable:
 
     ownerID: SymTableEntry
 
-    dict: {}
+    dict: dict[TerminalNode, any]
 
     def __init__(self, currentNestingLevel):
         self.nestingLevel = currentNestingLevel
+        self.dict = {}
 
     def generateUnnamedName(self):
         self.unnamedIndex += 1
@@ -31,7 +32,10 @@ class SymTable:
         return entry
 
     def lookup(self, name):
-        return self.dict.get(name)
+        if name in self.dict.keys():
+            return self.dict.get(name)
+        else:
+            return None
 
     def sortedEntries(self):
         values = self.dict.values()

@@ -1,0 +1,5 @@
+START
+Let name be 'Michael'
+print name
+print 'Hello, ' + name
+END

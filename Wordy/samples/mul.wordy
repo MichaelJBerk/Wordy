@@ -1,0 +1,5 @@
+START
+Let val1 be 2 + 2
+Let val2 be 3
+Let val3 be val2 * val2
+END

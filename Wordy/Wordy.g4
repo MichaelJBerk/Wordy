@@ -28,7 +28,7 @@ program: START statementList END;
 //assignStmt: assignNum | assignString | assignStringConst | assignNumConst | assignBool | assignBoolConst | assignArray | assignArrayConst;
 
 varValue:
-    expression | stringTerm | bool | array | arrayQuery | INPUT;
+    number | expression | stringTerm | bool | array | arrayQuery | INPUT;
 
 assignVar:
     LET variable (BE | '=') varValue;
@@ -150,7 +150,7 @@ factor
     ;
 
 concat
-    : STRING ('+'| AND) ( concat )+;
+    : (STRING | IDENTIFIER) ('+'| AND) ( stringTerm )+;
 
 TYPE:
     STRING_TYPE | NUM_TYPE| BOOL;

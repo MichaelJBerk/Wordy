@@ -8,7 +8,7 @@ from SymTableStuff.SymTable import *
 def main(args):
 
     if len(args) < 2:
-        file = "visitTest.wordy"
+        file = "samples/visitTest.wordy"
     else:
         file = args[1]
 
@@ -18,14 +18,12 @@ def main(args):
     lexer = WordyLexer(codeStream)
     tokenStream = CommonTokenStream(lexer)
 
-    #TODO: Make sym table entry to start off parser
-    #
-    # for t in tokens:
-    #     print(t.text, t.type)
+    #TODO: Ask how to handle "Invalid Variable", given that antlr already doesn't allow it
+
     parser = WordyParser(tokenStream)
     tree = parser.program()
     symTable = SymTable(0)
-    programId = SymTableEntry("wordyPrgm", Kind.UNDEFINED, symTable, None)
+    programId = SymTableEntry("wordyPrgm", Kind.UNDEFINED, symTable)
     visitor = SemVisitor()
     visitor.visit(tree.statementList())
 

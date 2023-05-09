@@ -58,7 +58,7 @@ arrayTerm
 array
     : '[' (arrayTerm) ? (',' arrayTerm)* ']';
 stringTerm
-    : (concat | stringConstant | IDENTIFIER);
+    : (concat | stringConstant | IDENTIFIER | funcCall);
 
 numTerm
     : factor (mulOp factor)*;
@@ -145,6 +145,7 @@ factor
     | number                # numberFactor
     | characterConstant     # characterFactor
     | stringConstant        # stringFactor
+    | funcCall              # funcCallFactor
     | neqOp factor          # notFactor
     | '(' expression ')'    # parenthesizedExpression
     ;

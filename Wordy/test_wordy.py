@@ -60,4 +60,14 @@ def test_mustBeProcedure():
     with pytest.raises(ERROR_NAME_MUST_BE_PROCEDURE):
         runCode(code)
 
+def test_funcCall():
+    code = """
+    to do funcCall() output a String {
+        output 'hey'
+    }
+    Let funcCallVar = funcCall()
+    print funcCallVar
+    print funcCall()
+    """
+    runCode(code)
 

@@ -13,7 +13,10 @@ def main(args):
         file = args[1]
 
     code = open(file, 'r').read()
+    parseAndVisit(code)
 
+def parseAndVisit(code):
+    print("Code:" + code)
     codeStream = InputStream(code)
     lexer = WordyLexer(codeStream)
     tokenStream = CommonTokenStream(lexer)
@@ -29,4 +32,5 @@ def main(args):
 
     print(visitor)
 
-main(sys.argv)
+if "pytest" not in sys.argv[0]:
+    main(sys.argv)

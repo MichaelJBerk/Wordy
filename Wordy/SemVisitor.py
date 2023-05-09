@@ -21,7 +21,7 @@ class SemVisitor(WordyVisitor):
         if currentEntry is not None:
             if currentEntry.kind is Kind.CONSTANT:
                 raise ValueError("Redeclared identifier")
-        value = self.visitChildren(ctx.varValue())
+        value = ctx.varValue()
         entry = self.symtable.enter(variable, Kind.VARIABLE)
         entry.value = value
         return None
@@ -32,7 +32,7 @@ class SemVisitor(WordyVisitor):
         if currentEntry is not None:
             if currentEntry.kind is Kind.VARIABLE or Kind.CONSTANT:
                 raise ValueError("Redeclared identifier")
-        value = self.visit(ctx.varValue())
+        value = ctx.varValue()
         entry = self.symtable.enter(variable, Kind.CONSTANT)
         entry.value = value
         return None

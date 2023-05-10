@@ -7,3 +7,6 @@ class ERROR_UNDECLARED_ID(Exception):
 
 class ERROR_REDECLARED_ID(Exception):
     def __init__(self): super().__init__("Redeclared identifier")
+
+class ERROR_INVALID_TYPE(Exception):
+    def __init__(self): super().__init__("Invalid type")

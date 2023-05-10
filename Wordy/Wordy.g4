@@ -131,8 +131,10 @@ integerConstant : INTEGER ;
 realConstant    : REAL;
 
 expression
-    : stringTerm (relOp stringTerm)?
+    : funcCall
+    | stringTerm (relOp stringTerm)?
     | numExpression (relOp numExpression)?;
+
 
 
 numExpression

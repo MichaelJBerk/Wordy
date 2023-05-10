@@ -65,9 +65,29 @@ def test_funcCall():
     to do funcCall() output a String {
         output 'hey'
     }
-    Let funcCallVar = funcCall()
+    Let funcCallVar be funcCall()
     print funcCallVar
     print funcCall()
     """
     runCode(code)
+
+def test_invalidType():
+    code = """
+    Let itype be 2
+    Let itype be 'hey'
+    """
+    with pytest.raises(ERROR_INVALID_TYPE):
+        runCode(code)
+
+def test_wrongTypeRoutine():
+    code = """
+    to do wrongTypeRoutine() output a String {
+        output 'wrongTypeRoutine'
+    }
+    Let wtrVal be 2
+    Let wtrVal be wrongTypeRoutine()
+    """
+    with pytest.raises(ERROR_INVALID_TYPE):
+        runCode(code)
+
 

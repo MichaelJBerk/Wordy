@@ -67,7 +67,7 @@ sayStmt
     : PRINT stringTerm;
 
  outputStmt
-    : OUTPUT (expression | IDENTIFIER);
+    : OUTPUT (IDENTIFIER | expression);
 
 defThing
     : THING IDENTIFIER '{' (assignStmt)* '}';
@@ -146,7 +146,7 @@ factor
     : variable              # variableFactor
     | number                # numberFactor
     | characterConstant     # characterFactor
-    | stringConstant        # stringFactor
+//    | stringConstant        # stringFactor
     | funcCall              # funcCallFactor
     | neqOp factor          # notFactor
     | '(' expression ')'    # parenthesizedExpression

@@ -204,11 +204,6 @@ class WordyVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by WordyParser#stringFactor.
-    def visitStringFactor(self, ctx:WordyParser.StringFactorContext):
-        return self.visitChildren(ctx)
-
-
     # Visit a parse tree produced by WordyParser#funcCallFactor.
     def visitFuncCallFactor(self, ctx:WordyParser.FuncCallFactorContext):
         return self.visitChildren(ctx)

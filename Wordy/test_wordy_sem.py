@@ -55,7 +55,7 @@ def test_undeclared():
 
 def test_mustBeProcedure():
     code = """
-     test_mustBeProcedure1()
+     mustBeProcedure1()
      """
     with pytest.raises(ERROR_NAME_MUST_BE_PROCEDURE):
         runCode(code)
@@ -76,7 +76,7 @@ def test_invalidType():
     Let itype be 2
     Let itype be 'hey'
     """
-    with pytest.raises(ERROR_INVALID_TYPE):
+    with pytest.raises(ERROR_INCOMPATIBLE_ASSIGNMENT):
         runCode(code)
 
 def test_wrongTypeRoutine():
@@ -87,7 +87,65 @@ def test_wrongTypeRoutine():
     Let wtrVal be 2
     Let wtrVal be wrongTypeRoutine()
     """
-    with pytest.raises(ERROR_INVALID_TYPE):
+    with pytest.raises(ERROR_INCOMPATIBLE_ASSIGNMENT):
+        runCode(code)
+
+def test_redeclaredRoutine():
+    code = """
+    to do redRoutine() output a String {
+        output 'blah'
+    }
+    to do redRoutine() output a String {
+        output 'blah2'
+    }
+    """
+    with pytest.raises(ERROR_REDECLARED_ID):
+        runCode(code)
+
+def test_invalidOp():
+    code = """
+    'hey' * 'hey2'
+    """
+    with pytest.raises(PARSER_ERROR):
+        runCode(code)
+def test_badVar():
+    code = """
+    Let string be 'h'
+    """
+    with pytest.raises(PARSER_ERROR):
+        runCode(code)
+def test_badComparison():
+    code = """
+    Let bcStringVar be 'hey'
+    Let bcBool be 'hey' > 2
+    """
+    with pytest.raises(PARSER_ERROR):
+        runCode(code)
+
+def test_tooManySubscripts():
+    code = """
+    Let tmsArr = ['hey']
+    Let tmsArrVal = tmsArr[0][1]
+    """
+    with pytest.raises(PARSER_ERROR):
+        runCode(code)
+
+def test_badOutputStmt():
+    code = """
+    to do tBOS() output a String {
+        output 2
+    }
+    """
+    with pytest.raises(ERROR_INVALID_RETURN_TYPE):
         runCode(code)
 
 
+def test_badOutputStmtID():
+    code = """
+    to do tBOSId() output a String {
+        Let bosIdVar be 2
+        output bosIdVar
+    }
+    """
+    with pytest.raises(ERROR_INVALID_RETURN_TYPE):
+        runCode(code)

@@ -20,17 +20,6 @@ class SemVisitor(WordyVisitor):
     def visitProgram(self, ctx:WordyParser.ProgramContext):
         return self.visitChildren(ctx)
 
-    # def visitNumber(self, ctx:WordyParser.NumberContext):
-    #     self.visitChildren(ctx)
-    #     return VarType.FLOAT
-    #
-    # def visitStringConstant(self, ctx:WordyParser.StringConstantContext):
-    #     self.visitChildren(ctx)
-    #     return VarType.STRING
-    # def visitConcat(self, ctx:WordyParser.ConcatContext):
-    #     self.visitChildren(ctx)
-    #     return VarType.STRING
-
     def visitExpression(self, ctx:WordyParser.ExpressionContext):
         type = VarType.NONE
         if ctx.funcCall() is not None:
@@ -41,9 +30,9 @@ class SemVisitor(WordyVisitor):
                 pass
             routineInfo = entryInfo.value
             type = routineInfo.outputType
-        elif ctx.stringTerm() is not None:
+        elif ctx.stringTerm() is not None and len(ctx.stringTerm()) > 0:
             type = VarType.STRING
-        elif ctx.numExpression() is not None:
+        elif ctx.numExpression() is not None and len(ctx.numExpression()) > 0:
             type = VarType.FLOAT
         ctx.type = type
         return self.visitChildren(ctx)
@@ -77,15 +66,38 @@ class SemVisitor(WordyVisitor):
         self.assignVar(variable, varValue)
         return None
 
+    def assignVar(self, variable, varValue, isConstant =False):
+        currentEntry = self.symtable.lookup(variable)
+        self.visit(varValue)
+        if currentEntry is not None:
+            if isConstant:
+                redeclared = (currentEntry.kind is Kind.VARIABLE or Kind.CONSTANT)
+            else:
+                redeclared = (currentEntry.kind is Kind.CONSTANT)
+            if redeclared is True:
+                raise ERROR_REDECLARED_ID()
+            entryValue = currentEntry.value
+            if varValue is not None:
+                self.visit(varValue)
+                self.visit(entryValue)
+                lType: VarType = varValue.type
+                rType: VarType = entryValue.type
+                if lType is not rType:
+                    raise ERROR_INCOMPATIBLE_ASSIGNMENT()
+
+        value = varValue
+        if isConstant:
+            kind = Kind.CONSTANT
+        else:
+            kind = Kind.VARIABLE
+        entry = self.symtable.enter(variable, kind)
+        entry.value = value
+        entry.varType = varValue.type
+
     def visitAssignVarConst(self, ctx:WordyParser.AssignVarConstContext):
         variable = ctx.variable().IDENTIFIER().getText()
-        currentEntry = self.symtable.lookup(variable)
-        if currentEntry is not None:
-            if currentEntry.kind is Kind.VARIABLE or Kind.CONSTANT:
-                raise ERROR_REDECLARED_ID()
-        value = ctx.varValue()
-        entry = self.symtable.enter(variable, Kind.CONSTANT)
-        entry.value = value
+        varValue = ctx.varValue()
+        self.assignVar(variable, varValue, True)
         return None
 
     def visitStringTerm(self, ctx:WordyParser.StringTermContext):
@@ -146,30 +158,33 @@ class SemVisitor(WordyVisitor):
             raise ERROR_NAME_MUST_BE_PROCEDURE()
         self.visitChildren(ctx)
 
-    def assignVar(self, variable, varValue):
-        currentEntry = self.symtable.lookup(variable)
-        if currentEntry is not None:
-            if currentEntry.kind is Kind.CONSTANT:
-                raise ERROR_REDECLARED_ID()
-            entryValue = currentEntry.value
-            if varValue is not None:
-                self.visit(varValue)
-                self.visit(entryValue)
-                lType: VarType = varValue.type
-                rType: VarType = entryValue.type
-                # if entryValue is RoutineInfo:
-                #     routineInfo: RoutineInfo = entryValue
-                #     lType = routineInfo.outputType
-                #
-                #     vvType = ctx.varValue().type
-                if lType is not rType:
-                    raise ERROR_INVALID_TYPE()
 
-        value = varValue
-        entry = self.symtable.enter(variable, Kind.VARIABLE)
-        entry.value = value
 
     def visitLoopEachStmt(self, ctx:WordyParser.LoopEachStmtContext):
         variable = ctx.IDENTIFIER(0).getText()
         self.assignVar(variable, None)
         return self.visit(ctx.curlyStatementList())
+
+    def visitOutputStmt(self, ctx:WordyParser.OutputStmtContext):
+        funcId = ctx.parentCtx.IDENTIFIER().getText()
+        currentEntry = self.symtable.lookup(funcId)
+        declaredOutputType = currentEntry.value.outputType
+        actualOutputType = None
+        if ctx.IDENTIFIER() is not None:
+            outputVal = ctx.IDENTIFIER().getText()
+            outputIdEntry = self.symtable.lookup(outputVal)
+            actualOutputType = outputIdEntry.varType
+        elif ctx.expression() is not None:
+            outputVal = ctx.expression()
+            self.visit(outputVal)
+            actualOutputType = outputVal.type
+        if actualOutputType is not declaredOutputType:
+            raise ERROR_INVALID_RETURN_TYPE()
+        return self.visitChildren(ctx)
+
+    #TODO: Classes/"Thing"s
+        #TODO: Invalid Field
+    #TODO: Arg count mismatch
+    #TODO: Invalid return type
+    #TODO: Figure out how to handle stack
+

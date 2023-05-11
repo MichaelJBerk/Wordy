@@ -73,26 +73,8 @@ class SemVisitor(WordyVisitor):
 
     def visitAssignVar(self, ctx:WordyParser.AssignVarContext):
         variable = ctx.variable().IDENTIFIER().getText()
-        currentEntry = self.symtable.lookup(variable)
-        if currentEntry is not None:
-            if currentEntry.kind is Kind.CONSTANT:
-                raise ERROR_REDECLARED_ID()
-            entryValue = currentEntry.value
-            self.visit(ctx.varValue())
-            self.visit(entryValue)
-            lType: VarType = ctx.varValue().type
-            rType: VarType = entryValue.type
-            # if entryValue is RoutineInfo:
-            #     routineInfo: RoutineInfo = entryValue
-            #     lType = routineInfo.outputType
-            #
-            #     vvType = ctx.varValue().type
-            if lType is not rType:
-                raise ERROR_INVALID_TYPE()
-
-        value = ctx.varValue()
-        entry = self.symtable.enter(variable, Kind.VARIABLE)
-        entry.value = value
+        varValue = ctx.varValue()
+        self.assignVar(variable, varValue)
         return None
 
     def visitAssignVarConst(self, ctx:WordyParser.AssignVarConstContext):
@@ -118,7 +100,10 @@ class SemVisitor(WordyVisitor):
             if entry is None:
                 raise ERROR_UNDECLARED_ID()
             else:
-                return self.visit(entry.value)
+                if entry.value is not None:
+                    return self.visit(entry.value)
+                else:
+                    return None
 
 
     def visitVariableFactor(self, ctx:WordyParser.VariableFactorContext):
@@ -160,3 +145,31 @@ class SemVisitor(WordyVisitor):
         if entry is None:
             raise ERROR_NAME_MUST_BE_PROCEDURE()
         self.visitChildren(ctx)
+
+    def assignVar(self, variable, varValue):
+        currentEntry = self.symtable.lookup(variable)
+        if currentEntry is not None:
+            if currentEntry.kind is Kind.CONSTANT:
+                raise ERROR_REDECLARED_ID()
+            entryValue = currentEntry.value
+            if varValue is not None:
+                self.visit(varValue)
+                self.visit(entryValue)
+                lType: VarType = varValue.type
+                rType: VarType = entryValue.type
+                # if entryValue is RoutineInfo:
+                #     routineInfo: RoutineInfo = entryValue
+                #     lType = routineInfo.outputType
+                #
+                #     vvType = ctx.varValue().type
+                if lType is not rType:
+                    raise ERROR_INVALID_TYPE()
+
+        value = varValue
+        entry = self.symtable.enter(variable, Kind.VARIABLE)
+        entry.value = value
+
+    def visitLoopEachStmt(self, ctx:WordyParser.LoopEachStmtContext):
+        variable = ctx.IDENTIFIER(0).getText()
+        self.assignVar(variable, None)
+        return self.visit(ctx.curlyStatementList())

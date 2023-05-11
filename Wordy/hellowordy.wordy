@@ -20,8 +20,8 @@ loop for each item in ['item1', 'item2'] {
     say item
 }
 
-loop for each item in sArr {
-    say item
+loop for each item2 in sArr {
+    say item2
 }
 
 /*Let hey be sArr[0]*/
@@ -32,6 +32,7 @@ loop until true {
 
 To do myFunc(with v1 as String, v2 as String) output a String {
     say 'hi'
+    Let hello = 'hello'
     output hello
 }
 

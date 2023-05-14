@@ -49,15 +49,70 @@ class SemVisitor(WordyVisitor):
         elif ctx.bool_() is not None:
             type = VarType.BOOL
         elif ctx.array() is not None:
-            #TODO: Add Array
-            pass
+            self.visit(ctx.array())
+            type = ctx.array().type
         elif ctx.arrayQuery() is not None:
-            #TODO: Add Array Query
-            pass
+            self.visit(ctx.arrayQuery())
+            type = ctx.arrayQuery().type
         elif ctx.INPUT() is not None:
             type = VarType.STRING_ARRAY
         ctx.type = type
         return self.visitChildren(ctx)
+
+    def visitArray(self, ctx:WordyParser.ArrayContext):
+        childVisit = self.visitChildren(ctx)
+        term: VarType
+        firstTerm = ctx.arrayTerm(0)
+        for i in range(len(ctx.arrayTerm())):
+            term = ctx.arrayTerm(i)
+            if term.type is not firstTerm.type:
+                raise TYPE_MISMATCH()
+        match firstTerm.type:
+            case VarType.STRING:
+                ctx.type = VarType.STRING_ARRAY
+            case VarType.FLOAT:
+                ctx.type = VarType.NUM_ARRAY
+            case VarType.BOOL:
+                ctx.type = VarType.BOOL_ARRAY
+        return childVisit
+
+    def visitArrayQuery(self, ctx:WordyParser.ArrayQueryContext):
+        arrayEntry = self.lookupIdEntry(ctx.IDENTIFIER(0).getText())
+        arrVal:WordyParser.ArrayContext = arrayEntry.value.array()
+        if ctx.unsignedNumber() is not None:
+            index = int(ctx.unsignedNumber().getText())
+        else:
+            idLookup = self.lookupIdEntry(ctx.IDENTIFIER(1).getText())
+            if idLookup.varType is not VarType.FLOAT:
+                raise TYPE_MISMATCH()
+            index = int(idLookup.value.getText())
+        arrTerm = arrVal.arrayTerm(index)
+        ctx.type = arrTerm.type
+        return self.visit(arrTerm)
+
+
+    def visitArrayTerm(self, ctx:WordyParser.ArrayTermContext):
+        childVisit = self.visitChildren(ctx)
+        if ctx.stringTerm() is not None:
+            ctx.type = VarType.STRING
+        elif ctx.numExpression() is not None:
+            ctx.type = VarType.FLOAT
+        elif ctx.bool_() is not None:
+            ctx.type = VarType.BOOL
+        elif ctx.IDENTIFIER() is not None:
+            entry = self.lookupIdEntry(ctx.IDENTIFIER().getText())
+            ctx.type = entry.varType
+        return childVisit
+
+    def lookupIdEntry(self, variable, throws =True):
+        entry = self.symtable.lookup(variable)
+        if entry is None:
+            if throws:
+                raise ERROR_UNDECLARED_ID
+            else:
+                return None
+        else:
+            return entry
 
 
     def visitAssignVar(self, ctx:WordyParser.AssignVarContext):

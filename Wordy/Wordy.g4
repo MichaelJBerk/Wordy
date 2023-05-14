@@ -53,7 +53,7 @@ castNum
 //    : '[' (bool)? (',' bool)* ']';
 
 arrayTerm
-    : stringTerm | bool | IDENTIFIER;
+    : IDENTIFIER | stringTerm | numExpression | bool ;
 
 array
     : '[' (arrayTerm) ? (',' arrayTerm)* ']';

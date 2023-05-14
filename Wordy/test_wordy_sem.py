@@ -149,3 +149,32 @@ def test_badOutputStmtID():
     """
     with pytest.raises(ERROR_INVALID_RETURN_TYPE):
         runCode(code)
+
+def test_idArray():
+    code = """
+    Let idArray1Val0 = 1
+    Let idArray1 be [idArray1Val0, 2]
+    Let idArray1Var be idArray1
+    """
+    runCode(code)
+
+def test_arrayTypeMismatch():
+    code = """
+    let arrayTypeMismatch = ['hey', 2]
+    """
+    with pytest.raises(TYPE_MISMATCH):
+        runCode(code)
+
+def test_arrayQuery():
+    code = """
+    Let arrayToQuery = ['hey', 'hey2']
+    Let arrayToQueryValue0 = arrayToQuery[0]
+    """
+    runCode(code)
+def test_arrayQueryID():
+    code = """
+    Let arrayQueryID = 1
+    Let arrayToQueryID = ['hey', 'hey2']
+    Let arrayToQueryIDValue0 = arrayToQueryID[arrayQueryID]
+    """
+    runCode(code)

@@ -31,7 +31,6 @@ def parseAndVisit(code):
     lexer = WordyLexer(codeStream)
     tokenStream = CommonTokenStream(lexer)
 
-    #TODO: Ask how to handle "Invalid Variable", given that antlr already doesn't allow it
     parser = WordyParser(tokenStream)
     listner = WListener()
     parser.addErrorListener(listner)

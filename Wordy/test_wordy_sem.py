@@ -5,7 +5,7 @@ from WordyErrors import *
 import main
 
 def runCode(wordy):
-    code = f'START\n{wordy}\nEND'
+    code = f'START prgm \n{wordy}\nEND'
     main.parseAndVisit(code)
 
 def test_concat():

@@ -1,8 +1,8 @@
-import VarType
 from WordyVisitor import WordyVisitor
 from WordyParser import WordyParser
 from SymTableStuff.SymTable import *
 from SymTableStuff.SymTableEntry import *
+from SymTableStuff.SymTableStack import *
 from WordyErrors import *
 from SymTableStuff.RoutineInfo import *
 from VarType import *
@@ -12,7 +12,7 @@ class SemVisitor(WordyVisitor):
     # runtime stack contains stack frames
     # Stack frames contain sym table entries
     runtimeStack: []
-    symtable = SymTable(0)
+    symtable = SymTableStack()
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -145,7 +145,7 @@ class SemVisitor(WordyVisitor):
             kind = Kind.CONSTANT
         else:
             kind = Kind.VARIABLE
-        entry = self.symtable.enter(variable, kind)
+        entry = self.symtable.enterLocal(variable, kind)
         entry.value = value
         entry.varType = varValue.type
 
@@ -202,7 +202,7 @@ class SemVisitor(WordyVisitor):
             case 'bool':
                 outputType = VarType.BOOL
         info.outputType = outputType
-        entry = self.symtable.enter(funcId, info)
+        entry = self.symtable.enterLocal(funcId, info)
         entry.value = info
         return self.visitChildren(ctx)
 

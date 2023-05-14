@@ -1,4 +1,5 @@
 from enum import Enum
+import VarType
 
 
 class Kind(Enum):
@@ -23,6 +24,7 @@ class SymTableEntry:
     # lineNumbers = []
     kind: Kind
     value: any
+    varType: VarType
 
     def __init__(self, name, kind: Kind, symTable):
         self.name = name

@@ -58,7 +58,7 @@ arrayTerm
 array
     : '[' (arrayTerm) ? (',' arrayTerm)* ']';
 stringTerm
-    : (concat | stringConstant | IDENTIFIER);
+    : (concat | stringConstant | IDENTIFIER | funcCall);
 
 numTerm
     : factor (mulOp factor)*;
@@ -67,7 +67,7 @@ sayStmt
     : PRINT stringTerm;
 
  outputStmt
-    : OUTPUT (expression | IDENTIFIER);
+    : OUTPUT (IDENTIFIER | expression);
 
 defThing
     : THING IDENTIFIER '{' (assignStmt)* '}';
@@ -131,8 +131,10 @@ integerConstant : INTEGER ;
 realConstant    : REAL;
 
 expression
-    : stringTerm (relOp stringTerm)?
+    : funcCall
+    | stringTerm (relOp stringTerm)?
     | numExpression (relOp numExpression)?;
+
 
 
 numExpression
@@ -144,7 +146,8 @@ factor
     : variable              # variableFactor
     | number                # numberFactor
     | characterConstant     # characterFactor
-    | stringConstant        # stringFactor
+//    | stringConstant        # stringFactor
+    | funcCall              # funcCallFactor
     | neqOp factor          # notFactor
     | '(' expression ')'    # parenthesizedExpression
     ;

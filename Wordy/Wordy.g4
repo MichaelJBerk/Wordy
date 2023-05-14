@@ -1,6 +1,6 @@
 grammar Wordy;
 
-program: START statementList END;
+program: START IDENTIFIER statementList END;
 
 //assignString
 //    : LET variable BE stringTerm;

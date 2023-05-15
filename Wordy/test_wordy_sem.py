@@ -316,3 +316,25 @@ def test_defineFuncInFunc():
     """
     with pytest.raises(Exception):
         runCode(code)
+
+def test_input_wrong():
+    code = """
+    thing MyThing {
+        Let prop1 be input
+    }
+    """
+    with pytest.raises(ERROR_INPUT_USED_INCORRECTLY):
+        runCode(code)
+    code = """
+    Let constVal always be input
+    """
+    with pytest.raises(ERROR_INPUT_USED_INCORRECTLY):
+        runCode(code)
+    code = """
+    let val be input
+    thing MyThing {
+        Let prop1 be val
+    }
+    """
+    with pytest.raises(ERROR_INPUT_USED_INCORRECTLY):
+        runCode(code)

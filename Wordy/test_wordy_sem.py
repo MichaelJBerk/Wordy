@@ -147,7 +147,7 @@ def test_badOutputStmt():
         output 2
     }
     """
-    with pytest.raises(ERROR_INVALID_RETURN_TYPE):
+    with pytest.raises(ERROR_TYPE_MUST_BE_STRING):
         runCode(code)
 
 
@@ -158,7 +158,7 @@ def test_badOutputStmtID():
         output bosIdVar
     }
     """
-    with pytest.raises(ERROR_INVALID_RETURN_TYPE):
+    with pytest.raises(ERROR_TYPE_MUST_BE_STRING):
         runCode(code)
 
 def test_idArray():

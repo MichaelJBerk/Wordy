@@ -256,6 +256,12 @@ class SemVisitor(WordyVisitor):
             self.visit(outputVal)
             actualOutputType = outputVal.type
         if actualOutputType is not declaredOutputType:
+            if declaredOutputType is VarType.STRING:
+                raise ERROR_TYPE_MUST_BE_STRING()
+            if declaredOutputType is VarType.BOOL:
+                raise ERRROR_TYPE_MUST_BE_BOOLEAN()
+            if declaredOutputType is VarType.FLOAT or VarType.INT:
+                raise ERROR_TYPE_MUST_BE_NUMERIC()
             raise ERROR_INVALID_RETURN_TYPE()
         return self.visitChildren(ctx)
 

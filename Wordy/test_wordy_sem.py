@@ -242,7 +242,7 @@ def test_assign_to_propCall():
     runCode(code)
 
 
-def testAssignToPropCallWrongType():
+def test_AssignToPropCallWrongType():
     code = """
     thing MyThing {
         Let prop1 be 'blah3'
@@ -253,4 +253,66 @@ def testAssignToPropCallWrongType():
     """
     with pytest.raises(ERROR_INCOMPATIBLE_ASSIGNMENT):
         runCode(code)
+def test_InvalidField():
+    code = """
+    thing MyThing {
+        Let prop1 be 'blah3'
+    }
+    Let thing1 be new MyThing
+    Let val be thing1.prop2
+    """
+    with pytest.raises(ERROR_INVALID_FIELD):
+        runCode(code)
 
+def test_CallNonexistantRoutine():
+    code = """
+    Let val be myFunc()
+    """
+    with pytest.raises(ERROR_NAME_MUST_BE_PROCEDURE):
+        runCode(code)
+
+def test_defineThingInFunc():
+    code = """
+    to do myRoutine() output a String {
+        thing MyThing {
+            Let prop1 be 1
+        }
+        output 'hey'
+    }
+    """
+    with pytest.raises(ERROR_DEFINED_THING_IN_FUNC):
+        runCode(code)
+def test_defineFuncInThing():
+    code = """
+    thing MyThing {
+        to do myRoutine() output a String {
+            output 'hey'
+        }
+        Let prop1 be 1
+    }
+    """
+    with pytest.raises(Exception):
+        runCode(code)
+
+def test_defineThingInThing():
+    code = """
+    thing MyThing {
+        thing MyThing2 {
+            Let prop2 be 'hey'
+        }
+        Let prop1 be 1
+    }
+    """
+    with pytest.raises(Exception):
+        runCode(code)
+def test_defineFuncInFunc():
+    code = """
+    to do myRoutine() output a String {
+        to do routine2() output a String {
+            output 'hey2'
+        }
+        output 'hey1'
+    }
+    """
+    with pytest.raises(Exception):
+        runCode(code)

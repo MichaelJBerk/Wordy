@@ -25,3 +25,17 @@ class PARSER_ERROR(Exception):
 
 class ERROR_INVALID_RETURN_TYPE(Exception):
     def __init__(self):super().__init__("Invalid function return type")
+
+class ERROR_ARGUMENT_COUNT_MISMATCH(Exception):
+    def __init__(self): super().__init__("Invalid number of arguments")
+
+class ERROR_TYPE_MUST_BE_NUMERIC(Exception):
+    def __init__(self): super().__init__("Datatype must be integer or real")
+
+class ERROR_TYPE_MUST_BE_STRING(Exception):
+    def __init__(self):super().__init__("Datatype must be string")
+
+class ERROR_TYPE_MUST_BE_BOOLEAN(Exception):
+    def __init__(self):super().__init__("Datatype must be boolean")
+class ERROR_INVALID_FIELD(Exception):
+    def __init__(self): super().__init__("Invalid field")

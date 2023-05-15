@@ -1,23 +1,22 @@
-from SymTableStuff import SymTableEntry, SymTable
+from SymTableStuff.SymTable import *
 class SymTableStack:
 
-    stack = []
-    programid: SymTableEntry
+    stack = list[SymTable]
     def __init__(self):
+        self.stack = []
         self.currentNestingLevel = 0
         self.stack.append(SymTable(self.currentNestingLevel))
-        # add(SymTableStuff(self.currentNestingLevel))
-    # def add(self, item):
-    #     self.stack.append(item)
 
     def add(self, entry):
-        self.stack.append(entry)
+        return self.stack.append(entry)
 
     def remove(self, index):
-        self.stack.pop(index)
+        return self.stack.pop(index)
 
     def push(self):
-        symTable = SymTable(++self.currentNestingLevel)
+        nextLevel = self.currentNestingLevel + 1
+        symTable = SymTable(nextLevel)
+        self.currentNestingLevel = nextLevel
         self.add(symTable)
         return symTable
 
@@ -27,16 +26,17 @@ class SymTableStack:
         return entry
 
     def pop(self):
+        lastLevel = self.currentNestingLevel - 1
         symTable = self.stack[self.currentNestingLevel]
         self.remove(self.currentNestingLevel)
-        self.currentNestingLevel -= 1
+        self.currentNestingLevel = lastLevel
         return symTable
 
     def enterLocal(self, name, kind):
-        self.stack[self.currentNestingLevel].enter(name, kind)
+        return self.stack[self.currentNestingLevel].enter(name, kind)
 
     def lookupLocal(self, name):
-        self.stack[self.currentNestingLevel].lookup(name)
+        return  self.stack[self.currentNestingLevel].lookup(name)
 
     def lookup(self, name):
         foundEntry = None

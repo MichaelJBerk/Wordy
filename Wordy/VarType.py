@@ -8,3 +8,5 @@ class VarType(Enum):
     STRING_ARRAY = 5
     NUM_ARRAY = 6
     BOOL_ARRAY = 7
+    THING_DEF = 8
+    THING_VAL = 9

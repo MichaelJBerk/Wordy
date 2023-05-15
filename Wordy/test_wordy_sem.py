@@ -1,18 +1,30 @@
 # content of test_sample.py
 import pytest
 from WordyErrors import *
+from WordyParser import *
+from importlib import reload
 
 import main
 
 def runCode(wordy):
-    code = f'START\n{wordy}\nEND'
-    main.parseAndVisit(code)
+    code = f'START prgm \n{wordy}\nEND'
+    return main.parseAndVisit(code)
 
 def test_concat():
     code = """
     Let tconcat be ('hey' + 'hwy3')
     """
     runCode(code)
+
+def test_stringTerm():
+    code = """
+    Let tStringTerm be 'test String term'
+    """
+    ran = runCode(code)
+    prgm: WordyParser.ProgramContext = ran[1]
+    varValue = prgm.statementList().statement(0).assignStmt().assignVar().varValue()
+    assert varValue.stringTerm() is not None
+    print("hey")
 
 def test_mul():
     code = """
@@ -136,7 +148,7 @@ def test_badOutputStmt():
         output 2
     }
     """
-    with pytest.raises(ERROR_INVALID_RETURN_TYPE):
+    with pytest.raises(ERROR_TYPE_MUST_BE_STRING):
         runCode(code)
 
 
@@ -147,5 +159,98 @@ def test_badOutputStmtID():
         output bosIdVar
     }
     """
-    with pytest.raises(ERROR_INVALID_RETURN_TYPE):
+    with pytest.raises(ERROR_TYPE_MUST_BE_STRING):
         runCode(code)
+
+def test_idArray():
+    code = """
+    Let idArray1Val0 = 1
+    Let idArray1 be [idArray1Val0, 2]
+    Let idArray1Var be idArray1
+    """
+    runCode(code)
+
+def test_arrayTypeMismatch():
+    code = """
+    let arrayTypeMismatch = ['hey', 2]
+    """
+    with pytest.raises(TYPE_MISMATCH):
+        runCode(code)
+
+def test_arrayQuery():
+    code = """
+    Let arrayToQuery = ['hey', 'hey2']
+    Let arrayToQueryValue0 = arrayToQuery[0]
+    """
+    runCode(code)
+def test_arrayQueryID():
+    code = """
+    Let arrayQueryID = 1
+    Let arrayToQueryID = ['hey', 'hey2']
+    Let arrayToQueryIDValue0 = arrayToQueryID[arrayQueryID]
+    """
+    runCode(code)
+
+def test_routine_params():
+    code = """
+    to do testRoutineParams(with trp0 as String, trp1 as Int) output a String {
+        output 'hey'
+    }
+    testRoutineParams('hey2', 1)
+    """
+    runCode(code)
+
+def test_thing_def():
+    code = """
+    thing MyThing {
+        Let prop1 be 1
+        Let prop2 be 'blah'
+    }
+    """
+    runCode(code)
+
+def test_thingRedeclared_def():
+    code = """
+    thing MyThing {
+        Let prop1 be 'blah3'
+    }
+    thing MyThing {
+        Let prop be 'hey'
+    }
+    """
+    with pytest.raises(ERROR_REDECLARED_ID):
+        runCode(code)
+
+def test_thing_redeclared_prop():
+    code = """
+     thing MyThing {
+        Let prop1 be 'blah3'
+        Let prop1 be 'hey'
+    }
+    """
+    with pytest.raises(ERROR_REDECLARED_ID):
+        runCode(code)
+
+def test_assign_to_propCall():
+    code = """
+        thing MyThing {
+            Let prop1 be 'blah3'
+        }
+        Let thing1 be new MyThing
+        Let val be thing1.prop1
+    """
+    runCode(code)
+
+
+def testAssignToPropCallWrongType():
+    code = """
+    thing MyThing {
+        Let prop1 be 'blah3'
+    }
+    Let val be 1
+    Let thing1 be new MyThing
+    Let val be thing1.prop1
+    """
+    with pytest.raises(ERROR_INCOMPATIBLE_ASSIGNMENT):
+        runCode(code)
+

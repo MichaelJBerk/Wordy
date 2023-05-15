@@ -84,13 +84,33 @@ class WordyVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
+    # Visit a parse tree produced by WordyParser#funcBody.
+    def visitFuncBody(self, ctx:WordyParser.FuncBodyContext):
+        return self.visitChildren(ctx)
+
+
     # Visit a parse tree produced by WordyParser#defFunc.
     def visitDefFunc(self, ctx:WordyParser.DefFuncContext):
         return self.visitChildren(ctx)
 
 
+    # Visit a parse tree produced by WordyParser#funcCallArg.
+    def visitFuncCallArg(self, ctx:WordyParser.FuncCallArgContext):
+        return self.visitChildren(ctx)
+
+
     # Visit a parse tree produced by WordyParser#funcCall.
     def visitFuncCall(self, ctx:WordyParser.FuncCallContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by WordyParser#newThing.
+    def visitNewThing(self, ctx:WordyParser.NewThingContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by WordyParser#propCall.
+    def visitPropCall(self, ctx:WordyParser.PropCallContext):
         return self.visitChildren(ctx)
 
 
@@ -196,11 +216,6 @@ class WordyVisitor(ParseTreeVisitor):
 
     # Visit a parse tree produced by WordyParser#numberFactor.
     def visitNumberFactor(self, ctx:WordyParser.NumberFactorContext):
-        return self.visitChildren(ctx)
-
-
-    # Visit a parse tree produced by WordyParser#characterFactor.
-    def visitCharacterFactor(self, ctx:WordyParser.CharacterFactorContext):
         return self.visitChildren(ctx)
 
 

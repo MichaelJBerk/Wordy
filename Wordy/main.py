@@ -31,7 +31,6 @@ def parseAndVisit(code):
     lexer = WordyLexer(codeStream)
     tokenStream = CommonTokenStream(lexer)
 
-    #TODO: Ask how to handle "Invalid Variable", given that antlr already doesn't allow it
     parser = WordyParser(tokenStream)
     listner = WListener()
     parser.addErrorListener(listner)
@@ -42,6 +41,7 @@ def parseAndVisit(code):
 
     visitor.visit(tree.statementList())
     print(visitor)
+    return visitor, tree
 
 if "pytest" not in sys.argv[0]:
     main(sys.argv)

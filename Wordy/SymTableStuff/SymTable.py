@@ -14,9 +14,12 @@ class SymTable:
 
     dict: dict[TerminalNode, any]
 
-    def __init__(self, currentNestingLevel):
+    def __init__(self, currentNestingLevel=0, dictToCopy=None):
+        if dictToCopy is None:
+            dictToCopy = {}
         self.nestingLevel = currentNestingLevel
-        self.dict = {}
+        self.dict = dictToCopy.copy()
+
 
     def generateUnnamedName(self):
         self.unnamedIndex += 1

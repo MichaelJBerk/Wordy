@@ -28,7 +28,7 @@ program: START IDENTIFIER statementList END;
 //assignStmt: assignNum | assignString | assignStringConst | assignNumConst | assignBool | assignBoolConst | assignArray | assignArrayConst;
 
 varValue:
-    number | expression | stringTerm | bool | array | arrayQuery | INPUT;
+    IDENTIFIER | number | stringTerm | bool | array | arrayQuery | newThing | propCall | INPUT | expression;
 
 assignVar:
     LET variable (BE | '=') varValue;
@@ -53,7 +53,7 @@ castNum
 //    : '[' (bool)? (',' bool)* ']';
 
 arrayTerm
-    : stringTerm | bool | IDENTIFIER;
+    : IDENTIFIER | stringTerm | numExpression | bool ;
 
 array
     : '[' (arrayTerm) ? (',' arrayTerm)* ']';
@@ -75,11 +75,23 @@ defThing
 defParam:
    IDENTIFIER AS TYPE;
 
+funcBody:
+    '{' (statementList)? outputStmt '}';
+
 defFunc
-    : TO DO IDENTIFIER '(' WITH? (defParam)? (',' defParam)* ')' (OUTPUT AN TYPE)? '{' (statementList)? outputStmt '}';
+    : TO DO IDENTIFIER '(' WITH? (defParam)? (',' defParam)* ')' (OUTPUT AN TYPE)? funcBody;
+
+funcCallArg:
+    IDENTIFIER | varValue;
 
 funcCall:
-    IDENTIFIER '(' (IDENTIFIER | expression)? (',' IDENTIFIER | expression)* ')';
+    IDENTIFIER '(' (funcCallArg)? (',' funcCallArg)* ')';
+
+newThing:
+    NEW IDENTIFIER ;
+
+propCall:
+    IDENTIFIER '.' IDENTIFIER;
 
 //Not incorporated into `expression`, since it allows these by definition
 relOpExpr
@@ -145,7 +157,7 @@ numExpression
 factor
     : variable              # variableFactor
     | number                # numberFactor
-    | characterConstant     # characterFactor
+//    | characterConstant     # characterFactor
 //    | stringConstant        # stringFactor
     | funcCall              # funcCallFactor
     | neqOp factor          # notFactor
@@ -193,6 +205,7 @@ UNTIL: U N T I L;
 AN: A;
 START: S T A R T;
 END: E N D;
+NEW: N E W;
     
 fragment A : ('a' | 'A') ;
 fragment B : ('b' | 'B') ;

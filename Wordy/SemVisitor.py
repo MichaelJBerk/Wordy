@@ -38,26 +38,52 @@ class SemVisitor(WordyVisitor):
         return self.visitChildren(ctx)
 
     def visitVarValue(self, ctx:WordyParser.VarValueContext):
-        type: VarType = VarType.NONE
+        varType: VarType = VarType.NONE
         if ctx.number() is not None:
-            type = VarType.FLOAT
+            varType = VarType.FLOAT
         elif ctx.stringTerm() is not None:
-            type = VarType.STRING
+            varType = VarType.STRING
         elif ctx.expression() is not None:
             self.visit(ctx.expression())
-            type = ctx.expression().type
+            varType = ctx.expression().type
         elif ctx.bool_() is not None:
-            type = VarType.BOOL
+            varType = VarType.BOOL
         elif ctx.array() is not None:
             self.visit(ctx.array())
-            type = ctx.array().type
+            varType = ctx.array().type
         elif ctx.arrayQuery() is not None:
             self.visit(ctx.arrayQuery())
-            type = ctx.arrayQuery().type
+            varType = ctx.arrayQuery().type
         elif ctx.INPUT() is not None:
-            type = VarType.STRING_ARRAY
-        ctx.type = type
+            varType = VarType.STRING_ARRAY
+        elif ctx.newThing():
+            self.visit(ctx.newThing())
+            varType = VarType.THING_VAL
+        elif ctx.propCall():
+            self.visit(ctx.propCall())
+            varType = ctx.propCall().type
+        elif ctx.IDENTIFIER():
+            identifier = ctx.IDENTIFIER().getText()
+            entry = self.lookupIdEntry(identifier)
+            varType = entry.varType
+        ctx.type = varType
         return self.visitChildren(ctx)
+
+    def visitNewThing(self, ctx:WordyParser.NewThingContext):
+        pass
+    def visitPropCall(self, ctx:WordyParser.PropCallContext):
+        thingVarId = ctx.IDENTIFIER(0).getText()
+        thingVarEntry = self.lookupIdEntry(thingVarId)
+        thingVarSymTable:SymTable = thingVarEntry.value
+        thingPropId = ctx.IDENTIFIER(1).getText()
+        thingVarPropEntry = thingVarSymTable.lookup(thingPropId)
+        if thingVarPropEntry is None:
+            #TODO: raise error
+            pass
+        self.visit(thingVarPropEntry.value)
+        ctx.type = thingVarPropEntry.varType
+
+
 
     def visitArray(self, ctx:WordyParser.ArrayContext):
         childVisit = self.visitChildren(ctx)
@@ -122,7 +148,6 @@ class SemVisitor(WordyVisitor):
         if currentEntry is not None:
             #TODO: Test this
             raise ERROR_REDECLARED_ID()
-
         symTable = SymTable(0)
         for i in range(len(ctx.assignStmt())):
             stmt = ctx.assignStmt(i)
@@ -144,7 +169,7 @@ class SemVisitor(WordyVisitor):
             propEntry.varType = propValue.type
         entry = self.symtable.enterLocal(thingName, Kind.TYPE)
         entry.value = symTable
-        entry.varType = VarType.THING
+        entry.varType = VarType.THING_DEF
 
     def visitAssignVar(self, ctx:WordyParser.AssignVarContext):
         variable = ctx.variable().IDENTIFIER().getText()
@@ -166,12 +191,17 @@ class SemVisitor(WordyVisitor):
             if varValue is not None:
                 self.visit(varValue)
                 self.visit(entryValue)
-                lType: VarType = varValue.type
-                rType: VarType = entryValue.type
-                if lType is not rType:
+                lType: VarType = entryValue.type
+                rType: VarType = varValue.type
+                if rType is not lType:
                     raise ERROR_INCOMPATIBLE_ASSIGNMENT()
 
         value = varValue
+        if varValue.newThing() is not None:
+            newThing: WordyParser.NewThingContext = varValue.newThing()
+            thingEntry:SymTableEntry = self.lookupIdEntry(newThing.IDENTIFIER().getText())
+            thingSymTable = SymTable(dictToCopy=thingEntry.value.dict)
+            value = thingSymTable
         if isConstant:
             kind = Kind.CONSTANT
         else:

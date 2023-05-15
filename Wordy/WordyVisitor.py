@@ -104,6 +104,11 @@ class WordyVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
+    # Visit a parse tree produced by WordyParser#newThing.
+    def visitNewThing(self, ctx:WordyParser.NewThingContext):
+        return self.visitChildren(ctx)
+
+
     # Visit a parse tree produced by WordyParser#propCall.
     def visitPropCall(self, ctx:WordyParser.PropCallContext):
         return self.visitChildren(ctx)

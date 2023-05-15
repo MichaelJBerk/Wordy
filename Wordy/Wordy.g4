@@ -28,7 +28,7 @@ program: START IDENTIFIER statementList END;
 //assignStmt: assignNum | assignString | assignStringConst | assignNumConst | assignBool | assignBoolConst | assignArray | assignArrayConst;
 
 varValue:
-    number | expression | stringTerm | bool | array | arrayQuery | propCall | INPUT;
+    IDENTIFIER | number | stringTerm | bool | array | arrayQuery | newThing | propCall | INPUT | expression;
 
 assignVar:
     LET variable (BE | '=') varValue;
@@ -87,8 +87,11 @@ funcCallArg:
 funcCall:
     IDENTIFIER '(' (funcCallArg)? (',' funcCallArg)* ')';
 
+newThing:
+    NEW IDENTIFIER ;
+
 propCall:
-    IDENTIFIER.IDENTIFIER;
+    IDENTIFIER '.' IDENTIFIER;
 
 //Not incorporated into `expression`, since it allows these by definition
 relOpExpr
@@ -202,6 +205,7 @@ UNTIL: U N T I L;
 AN: A;
 START: S T A R T;
 END: E N D;
+NEW: N E W;
     
 fragment A : ('a' | 'A') ;
 fragment B : ('b' | 'B') ;

@@ -22,7 +22,7 @@ def test_stringTerm():
     """
     ran = runCode(code)
     prgm: WordyParser.ProgramContext = ran[1]
-    varValue = prgm.statementList().statement(0).assignStmt().assignVar().varValue().expression()
+    varValue = prgm.statementList().statement(0).assignStmt().assignVar().varValue()
     assert varValue.stringTerm() is not None
     print("hey")
 
@@ -230,3 +230,27 @@ def test_thing_redeclared_prop():
     """
     with pytest.raises(ERROR_REDECLARED_ID):
         runCode(code)
+
+def test_assign_to_propCall():
+    code = """
+        thing MyThing {
+            Let prop1 be 'blah3'
+        }
+        Let thing1 be new MyThing
+        Let val be thing1.prop1
+    """
+    runCode(code)
+
+
+def testAssignToPropCallWrongType():
+    code = """
+    thing MyThing {
+        Let prop1 be 'blah3'
+    }
+    Let val be 1
+    Let thing1 be new MyThing
+    Let val be thing1.prop1
+    """
+    with pytest.raises(ERROR_INCOMPATIBLE_ASSIGNMENT):
+        runCode(code)
+

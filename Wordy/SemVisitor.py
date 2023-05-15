@@ -23,7 +23,7 @@ class SemVisitor(WordyVisitor):
     def visitExpression(self, ctx:WordyParser.ExpressionContext):
         type = VarType.NONE
         if ctx.funcCall() is not None:
-            funcId = ctx.funcCall().IDENTIFIER(0).getText()
+            funcId = ctx.funcCall().IDENTIFIER().getText()
             entryInfo = self.symtable.lookup(funcId)
             if entryInfo is None:
                 # TODO: Raise error
@@ -41,11 +41,11 @@ class SemVisitor(WordyVisitor):
         type: VarType = VarType.NONE
         if ctx.number() is not None:
             type = VarType.FLOAT
+        elif ctx.stringTerm() is not None:
+            type = VarType.STRING
         elif ctx.expression() is not None:
             self.visit(ctx.expression())
             type = ctx.expression().type
-        elif ctx.stringTerm() is not None:
-            type = VarType.STRING
         elif ctx.bool_() is not None:
             type = VarType.BOOL
         elif ctx.array() is not None:
@@ -187,7 +187,6 @@ class SemVisitor(WordyVisitor):
         currentEntry = self.symtable.lookup(funcId)
         if currentEntry is not None:
             raise ERROR_REDECLARED_ID()
-
         info = RoutineInfo()
         info.context = ctx
         outputTypeStr = ctx.TYPE().getText().lower()
@@ -202,18 +201,41 @@ class SemVisitor(WordyVisitor):
             case 'bool':
                 outputType = VarType.BOOL
         info.outputType = outputType
+        for i in range(len(ctx.defParam())):
+            param = ctx.defParam(i)
+            info.args.append(param)
         entry = self.symtable.enterLocal(funcId, info)
         entry.value = info
         return self.visitChildren(ctx)
 
     def visitFuncCall(self, ctx:WordyParser.FuncCallContext):
-        identifier = ctx.IDENTIFIER(0).getText()
+        identifier = ctx.IDENTIFIER().getText()
         entry = self.symtable.lookup(identifier)
         if entry is None:
             raise ERROR_NAME_MUST_BE_PROCEDURE()
-        self.visitChildren(ctx)
+        value:RoutineInfo = entry.value
+        if len(value.args) is not len(ctx.funcCallArg()):
+            raise ERROR_ARGUMENT_COUNT_MISMATCH()
+        self.symtable.push()
+        for i in range(len(ctx.funcCallArg())):
+            arg = ctx.funcCallArg(i)
+            variable = value.args[i].IDENTIFIER().getText()
+            varValue = self.visit(arg)
+            self.assignVar(variable, varValue)
 
+        funcBody = value.context.funcBody()
+        body = self.visitChildren(funcBody)
+        self.symtable.pop()
+        return body
 
+    def visitFuncCallArg(self, ctx:WordyParser.FuncCallArgContext):
+        if ctx.IDENTIFIER() is not None:
+            entry = self.lookupIdEntry(ctx.IDENTIFIER().getText())
+            self.visit(entry.value)
+            return entry.value
+        else:
+            self.visit(ctx.varValue())
+            return ctx.varValue()
 
     def visitLoopEachStmt(self, ctx:WordyParser.LoopEachStmtContext):
         variable = ctx.IDENTIFIER(0).getText()
@@ -221,7 +243,7 @@ class SemVisitor(WordyVisitor):
         return self.visit(ctx.curlyStatementList())
 
     def visitOutputStmt(self, ctx:WordyParser.OutputStmtContext):
-        funcId = ctx.parentCtx.IDENTIFIER().getText()
+        funcId = ctx.parentCtx.parentCtx.IDENTIFIER().getText()
         currentEntry = self.symtable.lookup(funcId)
         declaredOutputType = currentEntry.value.outputType
         actualOutputType = None
@@ -239,7 +261,7 @@ class SemVisitor(WordyVisitor):
 
     #TODO: Classes/"Thing"s
         #TODO: Invalid Field
+        #TODO: Add calling Thing properties to G4
+            #TODO: can Things have functions?
     #TODO: Arg count mismatch
     #TODO: Invalid return type
-    #TODO: Figure out how to handle stack
-

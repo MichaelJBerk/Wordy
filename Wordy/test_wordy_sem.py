@@ -1,18 +1,29 @@
 # content of test_sample.py
 import pytest
 from WordyErrors import *
+from WordyParser import *
 
 import main
 
 def runCode(wordy):
     code = f'START prgm \n{wordy}\nEND'
-    main.parseAndVisit(code)
+    return main.parseAndVisit(code)
 
 def test_concat():
     code = """
     Let tconcat be ('hey' + 'hwy3')
     """
     runCode(code)
+
+def test_stringTerm():
+    code = """
+    Let tStringTerm be 'test String term'
+    """
+    ran = runCode(code)
+    prgm: WordyParser.ProgramContext = ran[1]
+    varValue = prgm.statementList().statement(0).assignStmt().assignVar().varValue().expression()
+    assert varValue.stringTerm() is not None
+    print("hey")
 
 def test_mul():
     code = """
@@ -176,5 +187,14 @@ def test_arrayQueryID():
     Let arrayQueryID = 1
     Let arrayToQueryID = ['hey', 'hey2']
     Let arrayToQueryIDValue0 = arrayToQueryID[arrayQueryID]
+    """
+    runCode(code)
+
+def test_routine_params():
+    code = """
+    to do testRoutineParams(with trp0 as String, trp1 as Int) output a String {
+        output 'hey'
+    }
+    testRoutineParams('hey2', 1)
     """
     runCode(code)

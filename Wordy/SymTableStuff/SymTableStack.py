@@ -14,7 +14,9 @@ class SymTableStack:
         return self.stack.pop(index)
 
     def push(self):
-        symTable = SymTable(++self.currentNestingLevel)
+        nextLevel = self.currentNestingLevel + 1
+        symTable = SymTable(nextLevel)
+        self.currentNestingLevel = nextLevel
         self.add(symTable)
         return symTable
 
@@ -24,9 +26,10 @@ class SymTableStack:
         return entry
 
     def pop(self):
+        lastLevel = self.currentNestingLevel - 1
         symTable = self.stack[self.currentNestingLevel]
         self.remove(self.currentNestingLevel)
-        self.currentNestingLevel -= 1
+        self.currentNestingLevel = lastLevel
         return symTable
 
     def enterLocal(self, name, kind):

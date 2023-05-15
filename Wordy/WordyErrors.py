@@ -25,3 +25,6 @@ class PARSER_ERROR(Exception):
 
 class ERROR_INVALID_RETURN_TYPE(Exception):
     def __init__(self):super().__init__("Invalid function return type")
+
+class ERROR_ARGUMENT_COUNT_MISMATCH(Exception):
+    def __init__(self): super().__init__("Invalid number of arguments")

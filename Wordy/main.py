@@ -41,6 +41,7 @@ def parseAndVisit(code):
 
     visitor.visit(tree.statementList())
     print(visitor)
+    return visitor, tree
 
 if "pytest" not in sys.argv[0]:
     main(sys.argv)

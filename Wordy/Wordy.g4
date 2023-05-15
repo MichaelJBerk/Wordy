@@ -75,11 +75,18 @@ defThing
 defParam:
    IDENTIFIER AS TYPE;
 
+funcBody:
+    '{' (statementList)? outputStmt '}';
+
 defFunc
-    : TO DO IDENTIFIER '(' WITH? (defParam)? (',' defParam)* ')' (OUTPUT AN TYPE)? '{' (statementList)? outputStmt '}';
+    : TO DO IDENTIFIER '(' WITH? (defParam)? (',' defParam)* ')' (OUTPUT AN TYPE)? funcBody;
+
+funcCallArg:
+    IDENTIFIER | varValue;
 
 funcCall:
-    IDENTIFIER '(' (IDENTIFIER | expression)? (',' IDENTIFIER | expression)* ')';
+//    IDENTIFIER '(' (funcCallArg)? (',' funcCallArg)* ')';
+    IDENTIFIER '(' (funcCallArg)? (',' funcCallArg)* ')';
 
 //Not incorporated into `expression`, since it allows these by definition
 relOpExpr
@@ -145,7 +152,7 @@ numExpression
 factor
     : variable              # variableFactor
     | number                # numberFactor
-    | characterConstant     # characterFactor
+//    | characterConstant     # characterFactor
 //    | stringConstant        # stringFactor
     | funcCall              # funcCallFactor
     | neqOp factor          # notFactor

@@ -11,10 +11,10 @@ class SemVisitor(WordyVisitor):
 
     # runtime stack contains stack frames
     # Stack frames contain sym table entries
-    runtimeStack: []
-    symtable = SymTableStack()
+    symtable:SymTableStack
 
     def __init__(self, *args, **kwargs):
+        self.symtable = SymTableStack()
         super().__init__(*args, **kwargs)
 
     def visitProgram(self, ctx:WordyParser.ProgramContext):
@@ -114,6 +114,37 @@ class SemVisitor(WordyVisitor):
         else:
             return entry
 
+    def visitDefThing(self, ctx: WordyParser.DefThingContext):
+        thingName = ctx.IDENTIFIER().getText()
+        currentEntry = self.symtable.lookup(thingName)
+        #TODO: If in method, raise error
+        #If already exists, throw error
+        if currentEntry is not None:
+            #TODO: Test this
+            raise ERROR_REDECLARED_ID()
+
+        symTable = SymTable(0)
+        for i in range(len(ctx.assignStmt())):
+            stmt = ctx.assignStmt(i)
+            if stmt.assignVar() is not None:
+                assign = stmt.assignVar()
+                kind = Kind.VARIABLE
+            else:
+                assign = stmt.assignVarConst()
+                kind = Kind.CONSTANT
+            propId = assign.variable().getText()
+            existingPropEntry = symTable.lookup(propId)
+            if existingPropEntry is not None:
+                raise ERROR_REDECLARED_ID()
+
+            self.visit(assign.varValue())
+            propValue = assign.varValue()
+            propEntry = symTable.enter(propId, kind)
+            propEntry.value = propValue
+            propEntry.varType = propValue.type
+        entry = self.symtable.enterLocal(thingName, Kind.TYPE)
+        entry.value = symTable
+        entry.varType = VarType.THING
 
     def visitAssignVar(self, ctx:WordyParser.AssignVarContext):
         variable = ctx.variable().IDENTIFIER().getText()
@@ -183,6 +214,7 @@ class SemVisitor(WordyVisitor):
     def visitDefFunc(self, ctx:WordyParser.DefFuncContext):
         #TODO: visit parameter defs
         #TODO: add subroutines
+        #TODO: Prevent defining routines within routines
         funcId = ctx.IDENTIFIER().getText()
         currentEntry = self.symtable.lookup(funcId)
         if currentEntry is not None:
@@ -216,7 +248,7 @@ class SemVisitor(WordyVisitor):
         value:RoutineInfo = entry.value
         if len(value.args) is not len(ctx.funcCallArg()):
             raise ERROR_ARGUMENT_COUNT_MISMATCH()
-        self.symtable.push()
+        # self.symtable.push()
         for i in range(len(ctx.funcCallArg())):
             arg = ctx.funcCallArg(i)
             variable = value.args[i].IDENTIFIER().getText()
@@ -225,7 +257,7 @@ class SemVisitor(WordyVisitor):
 
         funcBody = value.context.funcBody()
         body = self.visitChildren(funcBody)
-        self.symtable.pop()
+        # self.symtable.pop()
         return body
 
     def visitFuncCallArg(self, ctx:WordyParser.FuncCallArgContext):
@@ -265,9 +297,10 @@ class SemVisitor(WordyVisitor):
             raise ERROR_INVALID_RETURN_TYPE()
         return self.visitChildren(ctx)
 
+
     #TODO: Classes/"Thing"s
+        #TODO: Assign to thing property
+        #TODO: visit lookup thing property
+        #just a variable named "id"."prop"
+        #lookup value for thing id, then get props
         #TODO: Invalid Field
-        #TODO: Add calling Thing properties to G4
-            #TODO: can Things have functions?
-    #TODO: Arg count mismatch
-    #TODO: Invalid return type

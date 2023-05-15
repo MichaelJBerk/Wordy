@@ -2,6 +2,7 @@
 import pytest
 from WordyErrors import *
 from WordyParser import *
+from importlib import reload
 
 import main
 
@@ -198,3 +199,34 @@ def test_routine_params():
     testRoutineParams('hey2', 1)
     """
     runCode(code)
+
+def test_thing_def():
+    code = """
+    thing MyThing {
+        Let prop1 be 1
+        Let prop2 be 'blah'
+    }
+    """
+    runCode(code)
+
+def test_thingRedeclared_def():
+    code = """
+    thing MyThing {
+        Let prop1 be 'blah3'
+    }
+    thing MyThing {
+        Let prop be 'hey'
+    }
+    """
+    with pytest.raises(ERROR_REDECLARED_ID):
+        runCode(code)
+
+def test_thing_redeclared_prop():
+    code = """
+     thing MyThing {
+        Let prop1 be 'blah3'
+        Let prop1 be 'hey'
+    }
+    """
+    with pytest.raises(ERROR_REDECLARED_ID):
+        runCode(code)

@@ -28,7 +28,7 @@ program: START IDENTIFIER statementList END;
 //assignStmt: assignNum | assignString | assignStringConst | assignNumConst | assignBool | assignBoolConst | assignArray | assignArrayConst;
 
 varValue:
-    number | expression | stringTerm | bool | array | arrayQuery | INPUT;
+    number | expression | stringTerm | bool | array | arrayQuery | propCall | INPUT;
 
 assignVar:
     LET variable (BE | '=') varValue;
@@ -85,8 +85,10 @@ funcCallArg:
     IDENTIFIER | varValue;
 
 funcCall:
-//    IDENTIFIER '(' (funcCallArg)? (',' funcCallArg)* ')';
     IDENTIFIER '(' (funcCallArg)? (',' funcCallArg)* ')';
+
+propCall:
+    IDENTIFIER.IDENTIFIER;
 
 //Not incorporated into `expression`, since it allows these by definition
 relOpExpr

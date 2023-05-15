@@ -1,9 +1,9 @@
 from SymTableStuff.SymTable import *
 class SymTableStack:
 
-    stack = []
-    programid: SymTableEntry
+    stack = list[SymTable]
     def __init__(self):
+        self.stack = []
         self.currentNestingLevel = 0
         self.stack.append(SymTable(self.currentNestingLevel))
 

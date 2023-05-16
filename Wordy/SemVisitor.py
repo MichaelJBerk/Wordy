@@ -39,6 +39,8 @@ class SemVisitor(WordyVisitor):
             type = VarType.STRING
         elif ctx.numExpression() is not None and len(ctx.numExpression()) > 0:
             type = VarType.FLOAT
+        elif ctx.relOpExpr() is not None:
+            type = VarType.BOOL
         ctx.type = type
         return self.visitChildren(ctx)
 
@@ -68,6 +70,9 @@ class SemVisitor(WordyVisitor):
         elif ctx.propCall():
             self.visit(ctx.propCall())
             varType = ctx.propCall().type
+        # elif ctx.relOpExpr():
+        #     self.visit(ctx.relOpExpr())
+        #     varType = VarType.BOOL
         elif ctx.IDENTIFIER():
             identifier = ctx.IDENTIFIER().getText()
             entry = self.lookupIdEntry(identifier)
@@ -209,7 +214,7 @@ class SemVisitor(WordyVisitor):
                     raise ERROR_INCOMPATIBLE_ASSIGNMENT()
 
         value = varValue
-        if varValue.newThing() is not None:
+        if varValue.__class__ is WordyParser.VarValueContext and varValue.newThing() is not None:
             newThing: WordyParser.NewThingContext = varValue.newThing()
             thingEntry:SymTableEntry = self.lookupIdEntry(newThing.IDENTIFIER().getText())
             thingSymTable = SymTable(dictToCopy=thingEntry.value.dict)
@@ -317,7 +322,14 @@ class SemVisitor(WordyVisitor):
 
     def visitLoopEachStmt(self, ctx:WordyParser.LoopEachStmtContext):
         variable = ctx.IDENTIFIER(0).getText()
-        self.assignVar(variable, None)
+        if len(ctx.IDENTIFIER()) > 1:
+            array = self.lookupIdEntry(ctx.IDENTIFIER(1).getText()).value.array()
+            varValue = array.arrayTerm(0)
+        else:
+            array = ctx.array()
+            varValue = array.arrayTerm(0)
+        #TODO: if identifier, lookup first value of array. If literal, do first value
+        self.assignVar(variable, varValue)
         return self.visit(ctx.curlyStatementList())
 
     def visitOutputStmt(self, ctx:WordyParser.OutputStmtContext):

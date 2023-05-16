@@ -45,6 +45,9 @@ arrayQuery
 castNum
     : (IDENTIFIER | factor) AS NUM_TYPE;
 
+castStr
+    : numTerm AS STRING;
+
 //strArray
 //    : '[' (stringTerm)? (',' stringTerm)* ']';
 //numArray
@@ -58,7 +61,7 @@ arrayTerm
 array
     : '[' (arrayTerm) ? (',' arrayTerm)* ']';
 stringTerm
-    : (concat | stringConstant | IDENTIFIER | funcCall);
+    : (concat | stringConstant | IDENTIFIER | funcCall | castStr);
 
 numTerm
     : factor (mulOp factor)*;
@@ -93,7 +96,6 @@ newThing:
 propCall:
     IDENTIFIER '.' IDENTIFIER;
 
-//Not incorporated into `expression`, since it allows these by definition
 relOpExpr
     : numExpression relOp numExpression
 	| stringTerm relOp stringTerm
@@ -145,7 +147,8 @@ realConstant    : REAL;
 expression
     : funcCall
     | stringTerm (relOp stringTerm)?
-    | numExpression (relOp numExpression)?;
+    | numExpression (relOp numExpression)?
+    | relOpExpr;
 
 
 

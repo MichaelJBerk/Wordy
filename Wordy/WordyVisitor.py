@@ -44,6 +44,11 @@ class WordyVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
+    # Visit a parse tree produced by WordyParser#castStr.
+    def visitCastStr(self, ctx:WordyParser.CastStrContext):
+        return self.visitChildren(ctx)
+
+
     # Visit a parse tree produced by WordyParser#arrayTerm.
     def visitArrayTerm(self, ctx:WordyParser.ArrayTermContext):
         return self.visitChildren(ctx)

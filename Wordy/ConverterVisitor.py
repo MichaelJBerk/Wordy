@@ -114,7 +114,7 @@ class ConverterVisitor(WordyVisitor):
         self.variable_code += "private final " + val_type + " " + var_name + " = " + str(val_str) + ";\n"
 
     def visitDefParam(self, ctx: WordyParser.DefParamContext):
-        return str(self.types.get(ctx.TYPE()) + " " + str(ctx.IDENTIFIER()))
+        return str(self.types.get(ctx.returnType()) + " " + str(ctx.IDENTIFIER()))
 
     def visitOutputStmt(self, ctx: WordyParser.OutputStmtContext):
         statement = ""
@@ -170,16 +170,16 @@ class ConverterVisitor(WordyVisitor):
         return "(double) " + var
 
     def visitCastStr(self, ctx: WordyParser.CastStrContext):
-        return "new String(" + ctx.IDENTIFIER().symbol.text + ")"
+        if ctx.IDENTIFIER() is not None:
+            return "new String(" + ctx.IDENTIFIER().symbol.text + ")"
+        return "new String(" + str(self.visit(ctx.factor())) + ")"
 
     def visitArray(self, ctx: WordyParser.ArrayContext):
         array = []
-        if ctx.arrayTerm(0) is not None:
-            array.append(self.visitArrayTerm(ctx.arrayTerm(0)))
-            i = 1
-            while ctx.arrayTerm(i) is not None:
-                array.append(self.visitArrayTerm(ctx.arrayTerm(i)))
-                i += 1
+        i = 0
+        while ctx.arrayTerm(i) is not None:
+            array.append(self.visitArrayTerm(ctx.arrayTerm(i)))
+            i += 1
         return array
 
     def visitSayStmt(self, ctx: WordyParser.SayStmtContext):
@@ -233,3 +233,59 @@ class ConverterVisitor(WordyVisitor):
             string += self.visitStringTerm(ctx.stringTerm(i))
             i += 1
         string += ")"
+
+    def visitRelOpExpr(self, ctx: WordyParser.RelOpExprContext):
+        val1 = self.visit(ctx.getChild(0))
+        if ctx.bool_(1) is None:
+            return val1
+        op = self.visitRelOp(ctx.relOp())
+        val2 = self.visit(ctx.getChild(2))
+        return val1 + op + val2
+
+    def visitRelOp(self, ctx:WordyParser.RelOpContext):
+        if ctx.eqlOp() is not None:
+            return "=="
+        if ctx.neqOp() is not None:
+            return "!="
+        if ctx.ltOp() is not None:
+            return "<"
+        if ctx.leqOp() is not None:
+            return "<="
+        if ctx.gtOp() is not None:
+            return ">"
+        if ctx.geqOp() is not None:
+            return ">="
+
+    def visitNumTerm(self, ctx: WordyParser.NumTermContext):
+        term = self.visit(ctx.factor(0))
+        i = 0
+        while ctx.mulOp(i) is not None:
+            term += " " + self.visitMulOp(ctx.mulOp(i)) + " " + self.visit(ctx.factor(i+1))
+            i += 1
+        return term
+
+    def visitMulOp(self, ctx: WordyParser.MulOpContext):
+        return ctx.getText()
+
+    def visitAddOp(self, ctx:WordyParser.AddOpContext):
+        return ctx.getText()
+
+    def visitNumExpression(self, ctx: WordyParser.NumExpressionContext):
+        if ctx.castNum() is not None:
+            return self.visitCastNum(ctx.castNum())
+        if ctx.ADD() is not None:
+            i = 1
+            term = self.visitNumTerm(ctx.numTerm(0))
+            while ctx.numTerm(i) is not None:
+                term += " + " + str(self.visitNumTerm(ctx.numTerm(i)))
+                i += 1
+            return term
+        term = ""
+        if ctx.sign() is not None:
+            term += ctx.sign().symbol.text
+        term += self.visitNumTerm(ctx.numTerm(0))
+        i = 0
+        while ctx.addOp(i) is not None:
+            term += " " + self.visitAddOp(ctx.addOp(i)) + " " + self.visitNumTerm(ctx.numTerm(i+1))
+            i += 1
+        return term

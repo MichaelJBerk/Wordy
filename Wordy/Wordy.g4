@@ -28,7 +28,7 @@ program: START IDENTIFIER statementList END;
 //assignStmt: assignNum | assignString | assignStringConst | assignNumConst | assignBool | assignBoolConst | assignArray | assignArrayConst;
 
 varValue:
-    IDENTIFIER | number | stringTerm | bool | array | arrayQuery | newThing | propCall | INPUT | expression;
+    IDENTIFIER | castStr | number | stringTerm | bool | array | arrayQuery | newThing | propCall | INPUT | expression;
 
 assignVar:
     LET variable (BE | '=') varValue;
@@ -45,6 +45,9 @@ arrayQuery
 castNum
     : (IDENTIFIER | factor) AS NUM_TYPE;
 
+castStr
+    : IDENTIFIER AS STRING_TYPE;
+
 //strArray
 //    : '[' (stringTerm)? (',' stringTerm)* ']';
 //numArray
@@ -58,7 +61,7 @@ arrayTerm
 array
     : '[' (arrayTerm) ? (',' arrayTerm)* ']';
 stringTerm
-    : (concat | stringConstant | IDENTIFIER | funcCall);
+    : concat | stringConstant | IDENTIFIER | funcCall;
 
 numTerm
     : factor (mulOp factor)*;
@@ -93,7 +96,6 @@ newThing:
 propCall:
     IDENTIFIER '.' IDENTIFIER;
 
-//Not incorporated into `expression`, since it allows these by definition
 relOpExpr
     : numExpression relOp numExpression
 	| stringTerm relOp stringTerm
@@ -133,7 +135,6 @@ boolConst
 bool
     : boolConst | IDENTIFIER;
 
-characterConstant : CHARACTER ;
 stringConstant    : STRING ;
 variable : IDENTIFIER ;
      
@@ -145,7 +146,8 @@ realConstant    : REAL;
 expression
     : funcCall
     | stringTerm (relOp stringTerm)?
-    | numExpression (relOp numExpression)?;
+    | numExpression (relOp numExpression)?
+    | relOpExpr;
 
 
 
@@ -166,12 +168,6 @@ factor
 
 concat
     : (STRING | IDENTIFIER) ('+'| AND) ( stringTerm )+;
-
-TYPE:
-    STRING_TYPE | NUM_TYPE| BOOL;
-
-NUM_TYPE:
-    INT | FLOAT;
 
 LET : L E T;
 BE: B E;
@@ -206,6 +202,13 @@ AN: A;
 START: S T A R T;
 END: E N D;
 NEW: N E W;
+CAST: C A S T;
+
+TYPE:
+    STRING_TYPE | NUM_TYPE | BOOL;
+
+NUM_TYPE:
+    INT | FLOAT;
     
 fragment A : ('a' | 'A') ;
 fragment B : ('b' | 'B') ;
@@ -260,7 +263,6 @@ WS      : [ \t]+ -> skip ;
 
 
 QUOTE     : '\'' ;
-CHARACTER : QUOTE CHARACTER_CHAR QUOTE ;
 STRING    : QUOTE STRING_CHAR* QUOTE ;
 
 fragment CHARACTER_CHAR : ~('\'')
@@ -268,4 +270,5 @@ fragment CHARACTER_CHAR : ~('\'')
 
 fragment STRING_CHAR
                      : ~('\'')
+                     | '\\\''
                      ;

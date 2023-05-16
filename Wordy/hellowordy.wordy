@@ -1,18 +1,23 @@
-START
+START hello
 
 Let value1 be 1
 Let value2 be 2
 Let bool1 be true
 /*l arr[0]*/
-Let sArr be ['Item1', 'Item2']
+Let sArr = ['Item1', 'Item2']
 
 /*hey*/
 /*thing*/
 thing myThing {
     let v be 1
 }
+Let ro be bool1 = true
+Let str1 be '\'e\''
+if str1 is 'h' then {
+    say 'hi'
+}
 
-if bool1 is true then {
+if bool1 = true then {
     say 'hello'
 }
 

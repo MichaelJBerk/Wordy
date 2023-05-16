@@ -39,3 +39,18 @@ class ERROR_TYPE_MUST_BE_BOOLEAN(Exception):
     def __init__(self):super().__init__("Datatype must be boolean")
 class ERROR_INVALID_FIELD(Exception):
     def __init__(self): super().__init__("Invalid field")
+
+class ERROR_DEFINED_THING_IN_FUNC(Exception):
+    def __init__(self): super().__init__("Cannot define a Thing in a function")
+
+class ERROR_DEFINED_FUNC_IN_FUNC(Exception):
+    def __init__(self): super().__init__("Cannot define a function in a function")
+
+#These two Classes are unused since it's already a parser error
+class ERROR_DEFINED_FUNC_IN_THING(Exception):
+
+    def __init__(self): super().__init__("Cannot define a function in a Thing")
+class ERROR_DEFINED_THING_IN_THING(Exception):
+    def __init__(self): super().__init__("Cannot define a Thing in a Thing")
+class ERROR_INPUT_USED_INCORRECTLY(Exception):
+    def __init__(self): super().__init__("Input was used incorrectly")

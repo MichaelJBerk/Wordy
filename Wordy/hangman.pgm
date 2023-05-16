@@ -1,0 +1,99 @@
+START hangman
+Let hangWord always be 'hello'
+Let secretString be '_____'
+say 'Welcome. Try and guess my secret word: ' + secretString
+Let finished be false
+Let hSolved be false
+Let eSolved be false
+Let lSolved be false
+Let oSolved be false
+Let strikes be 0
+Let solvedLetters be 0
+Let guesses be 0
+Loop until finished is true {
+    say 'Select a Letter'
+    Let allowedLetter be false
+    Let i be input
+    if i = 'h' then {
+        if hSolved = false then {
+            Let hSolved be true
+            Let solvedLetters be solvedLetters + 1
+        } otherwise {
+            say 'hey'
+        }
+        Let allowedLetter be true
+    }
+    if i = 'e' then {
+        if eSolved = false then {
+            Let eSolved be true
+            Let solvedLetters be solvedLetters + 1
+        } otherwise {
+            say 'hey'
+        }
+        Let allowedLetter be true
+    }
+    if i = 'l' then {
+        if lSolved = false then {
+            let lSolved be true
+            Let solvedLetters be solvedLetters + 1
+        } otherwise {
+            say 'hey'
+        }
+        Let allowedLetter be true
+    }
+    if i = 'o' then {
+        if oSolved = false then {
+            let oSolved be true
+            Let solvedLetters be solvedLetters + 1
+        } otherwise {
+            say 'hey'
+        }
+        Let allowedLetter be true
+    }
+    if allowedLetter = false then {
+        Let strikeStr be strikes as String
+        Let strikes be strikes + 1
+        say 'The Letter \'' + i + '\' does not appear. You Have ' + strikeStr + ' strike(s):' + secretString
+    }
+    if strikes > 2 then {
+       Let finished be true
+    }
+    if solvedLetters > 4 then {
+        Let finished be true
+    }
+    Let guesses be guesses + 1
+    Let secretString be ''
+    if hSolved then {
+        Let secretString be secretString + 'h'
+    } otherwise {
+         Let secretString be secretString + '_'
+    }
+    if eSolved then {
+        Let secretString be secretString + 'e'
+    } otherwise {
+         Let secretString be secretString + '_'
+    }
+    if lSolved then {
+        Let secretString be secretString + 'll'
+    } otherwise {
+         Let secretString be secretString + '__'
+    }
+    if oSolved then {
+        Let secretString be secretString + 'o'
+    } otherwise {
+         Let secretString be secretString + '_'
+    }
+}
+Let guessPercent = (guesses / solvedLetters) * 100
+Let gpString be guessPercent as string
+Let guessString be 'Your guess percentage was: ' + gpString + '%'
+if solvedLetters > 4 then {
+    say 'You won with ' + guesses + ' guesses'
+    say guessString
+} otherwise {
+     say guessString
+     say 'You loose. Goodbye!'
+
+}
+
+END

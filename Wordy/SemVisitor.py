@@ -12,9 +12,15 @@ class SemVisitor(WordyVisitor):
     # runtime stack contains stack frames
     # Stack frames contain sym table entries
     symtable:SymTableStack
+    isInFunc:bool
+    isInThing:bool
+    usedAsInput:list
 
     def __init__(self, *args, **kwargs):
         self.symtable = SymTableStack()
+        self.isInFunc = False
+        self.isInThing = False
+        self.usedAsInput = []
         super().__init__(*args, **kwargs)
 
     def visitProgram(self, ctx:WordyParser.ProgramContext):
@@ -26,14 +32,15 @@ class SemVisitor(WordyVisitor):
             funcId = ctx.funcCall().IDENTIFIER().getText()
             entryInfo = self.symtable.lookup(funcId)
             if entryInfo is None:
-                # TODO: Raise error
-                pass
+                raise ERROR_NAME_MUST_BE_PROCEDURE()
             routineInfo = entryInfo.value
             type = routineInfo.outputType
         elif ctx.stringTerm() is not None and len(ctx.stringTerm()) > 0:
             type = VarType.STRING
         elif ctx.numExpression() is not None and len(ctx.numExpression()) > 0:
             type = VarType.FLOAT
+        elif ctx.relOpExpr() is not None:
+            type = VarType.BOOL
         ctx.type = type
         return self.visitChildren(ctx)
 
@@ -58,10 +65,14 @@ class SemVisitor(WordyVisitor):
             varType = VarType.STRING_ARRAY
         elif ctx.newThing():
             self.visit(ctx.newThing())
-            varType = VarType.THING_VAL
+            thingId = ctx.newThing().IDENTIFIER()
+            varType = thingId
         elif ctx.propCall():
             self.visit(ctx.propCall())
             varType = ctx.propCall().type
+        # elif ctx.relOpExpr():
+        #     self.visit(ctx.relOpExpr())
+        #     varType = VarType.BOOL
         elif ctx.IDENTIFIER():
             identifier = ctx.IDENTIFIER().getText()
             entry = self.lookupIdEntry(identifier)
@@ -78,8 +89,7 @@ class SemVisitor(WordyVisitor):
         thingPropId = ctx.IDENTIFIER(1).getText()
         thingVarPropEntry = thingVarSymTable.lookup(thingPropId)
         if thingVarPropEntry is None:
-            #TODO: raise error
-            pass
+            raise ERROR_INVALID_FIELD()
         self.visit(thingVarPropEntry.value)
         ctx.type = thingVarPropEntry.varType
 
@@ -142,8 +152,11 @@ class SemVisitor(WordyVisitor):
 
     def visitDefThing(self, ctx: WordyParser.DefThingContext):
         thingName = ctx.IDENTIFIER().getText()
+
         currentEntry = self.symtable.lookup(thingName)
-        #TODO: If in method, raise error
+        if self.isInFunc:
+            raise ERROR_DEFINED_THING_IN_FUNC()
+        self.isInThing = True
         #If already exists, throw error
         if currentEntry is not None:
             #TODO: Test this
@@ -161,7 +174,8 @@ class SemVisitor(WordyVisitor):
             existingPropEntry = symTable.lookup(propId)
             if existingPropEntry is not None:
                 raise ERROR_REDECLARED_ID()
-
+            if assign.varValue().INPUT() is not None or assign.varValue().getText() in self.usedAsInput:
+                raise ERROR_INPUT_USED_INCORRECTLY()
             self.visit(assign.varValue())
             propValue = assign.varValue()
             propEntry = symTable.enter(propId, kind)
@@ -170,11 +184,14 @@ class SemVisitor(WordyVisitor):
         entry = self.symtable.enterLocal(thingName, Kind.TYPE)
         entry.value = symTable
         entry.varType = VarType.THING_DEF
+        self.isInThing = False
 
     def visitAssignVar(self, ctx:WordyParser.AssignVarContext):
         variable = ctx.variable().IDENTIFIER().getText()
         varValue = ctx.varValue()
         self.assignVar(variable, varValue)
+        if ctx.varValue().INPUT() is not None:
+            self.usedAsInput.append(variable)
         return None
 
     def assignVar(self, variable, varValue, isConstant =False):
@@ -197,7 +214,7 @@ class SemVisitor(WordyVisitor):
                     raise ERROR_INCOMPATIBLE_ASSIGNMENT()
 
         value = varValue
-        if varValue.newThing() is not None:
+        if varValue.__class__ is WordyParser.VarValueContext and varValue.newThing() is not None:
             newThing: WordyParser.NewThingContext = varValue.newThing()
             thingEntry:SymTableEntry = self.lookupIdEntry(newThing.IDENTIFIER().getText())
             thingSymTable = SymTable(dictToCopy=thingEntry.value.dict)
@@ -213,6 +230,8 @@ class SemVisitor(WordyVisitor):
     def visitAssignVarConst(self, ctx:WordyParser.AssignVarConstContext):
         variable = ctx.variable().IDENTIFIER().getText()
         varValue = ctx.varValue()
+        if varValue.getText() in self.usedAsInput or varValue.INPUT() is not None:
+            raise ERROR_INPUT_USED_INCORRECTLY()
         self.assignVar(variable, varValue, True)
         return None
 
@@ -242,9 +261,9 @@ class SemVisitor(WordyVisitor):
         return entry.value
 
     def visitDefFunc(self, ctx:WordyParser.DefFuncContext):
-        #TODO: visit parameter defs
-        #TODO: add subroutines
-        #TODO: Prevent defining routines within routines
+        if self.isInFunc:
+            raise ERROR_DEFINED_FUNC_IN_FUNC()
+        self.isInFunc = True
         funcId = ctx.IDENTIFIER().getText()
         currentEntry = self.symtable.lookup(funcId)
         if currentEntry is not None:
@@ -268,7 +287,9 @@ class SemVisitor(WordyVisitor):
             info.args.append(param)
         entry = self.symtable.enterLocal(funcId, info)
         entry.value = info
-        return self.visitChildren(ctx)
+        visit = self.visitChildren(ctx)
+        self.isInFunc = False
+        return visit
 
     def visitFuncCall(self, ctx:WordyParser.FuncCallContext):
         identifier = ctx.IDENTIFIER().getText()
@@ -301,7 +322,14 @@ class SemVisitor(WordyVisitor):
 
     def visitLoopEachStmt(self, ctx:WordyParser.LoopEachStmtContext):
         variable = ctx.IDENTIFIER(0).getText()
-        self.assignVar(variable, None)
+        if len(ctx.IDENTIFIER()) > 1:
+            array = self.lookupIdEntry(ctx.IDENTIFIER(1).getText()).value.array()
+            varValue = array.arrayTerm(0)
+        else:
+            array = ctx.array()
+            varValue = array.arrayTerm(0)
+        #TODO: if identifier, lookup first value of array. If literal, do first value
+        self.assignVar(variable, varValue)
         return self.visit(ctx.curlyStatementList())
 
     def visitOutputStmt(self, ctx:WordyParser.OutputStmtContext):
@@ -321,16 +349,8 @@ class SemVisitor(WordyVisitor):
             if declaredOutputType is VarType.STRING:
                 raise ERROR_TYPE_MUST_BE_STRING()
             if declaredOutputType is VarType.BOOL:
-                raise ERRROR_TYPE_MUST_BE_BOOLEAN()
+                raise ERROR_TYPE_MUST_BE_BOOLEAN()
             if declaredOutputType is VarType.FLOAT or VarType.INT:
                 raise ERROR_TYPE_MUST_BE_NUMERIC()
             raise ERROR_INVALID_RETURN_TYPE()
         return self.visitChildren(ctx)
-
-
-    #TODO: Classes/"Thing"s
-        #TODO: Assign to thing property
-        #TODO: visit lookup thing property
-        #just a variable named "id"."prop"
-        #lookup value for thing id, then get props
-        #TODO: Invalid Field

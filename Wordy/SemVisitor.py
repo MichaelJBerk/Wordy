@@ -270,10 +270,12 @@ class SemVisitor(WordyVisitor):
             raise ERROR_REDECLARED_ID()
         info = RoutineInfo()
         info.context = ctx
-        outputTypeStr = ctx.TYPE().getText().lower()
+        outputTypeStr = ctx.returnType().getText().lower()
         outputType: VarType = VarType.NONE
         match outputTypeStr:
-            case 'string':
+            case 'word':
+                outputType = VarType.STRING
+            case 'strings':
                 outputType = VarType.STRING
             case 'int':
                 outputType = VarType.INT

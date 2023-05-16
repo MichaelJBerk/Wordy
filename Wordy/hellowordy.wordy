@@ -35,7 +35,7 @@ loop until true {
     say 'hello'
 }
 
-To do myFunc(with v1 as String, v2 as String) output a String {
+To do myFunc(with v1 as word, v2 as word) output a word {
     say 'hi'
     Let hello = 'hello'
     output hello

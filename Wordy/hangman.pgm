@@ -51,7 +51,7 @@ Loop until finished is true {
         Let allowedLetter be true
     }
     if allowedLetter = false then {
-        Let strikeStr be strikes as String
+        Let strikeStr be strikes as word
         Let strikes be strikes + 1
         say 'The Letter \'' + i + '\' does not appear. You Have ' + strikeStr + ' strike(s):' + secretString
     }
@@ -85,7 +85,7 @@ Loop until finished is true {
     }
 }
 Let guessPercent = (guesses / solvedLetters) * 100
-Let gpString be guessPercent as string
+Let gpString be guessPercent as word
 Let guessString be 'Your guess percentage was: ' + gpString + '%'
 if solvedLetters > 4 then {
     say 'You won with ' + guesses + ' guesses'

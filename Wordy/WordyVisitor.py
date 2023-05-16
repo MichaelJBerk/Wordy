@@ -99,6 +99,11 @@ class WordyVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
+    # Visit a parse tree produced by WordyParser#returnType.
+    def visitReturnType(self, ctx:WordyParser.ReturnTypeContext):
+        return self.visitChildren(ctx)
+
+
     # Visit a parse tree produced by WordyParser#funcCallArg.
     def visitFuncCallArg(self, ctx:WordyParser.FuncCallArgContext):
         return self.visitChildren(ctx)

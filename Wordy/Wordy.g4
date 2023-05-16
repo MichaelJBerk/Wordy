@@ -75,14 +75,19 @@ sayStmt
 defThing
     : THING IDENTIFIER '{' (assignStmt)* '}';
 
+
+
 defParam:
-   IDENTIFIER AS TYPE;
+   IDENTIFIER AS returnType;
 
 funcBody:
     '{' (statementList)? outputStmt '}';
 
 defFunc
-    : TO DO IDENTIFIER '(' WITH? (defParam)? (',' defParam)* ')' (OUTPUT AN TYPE)? funcBody;
+    : TO DO IDENTIFIER '(' WITH? (defParam)? (',' defParam)* ')' (OUTPUT AN returnType)? funcBody;
+
+returnType:
+    STRING_TYPE | INT | FLOAT | BOOL;
 
 funcCallArg:
     IDENTIFIER | varValue;

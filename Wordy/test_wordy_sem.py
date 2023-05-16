@@ -74,7 +74,7 @@ def test_mustBeProcedure():
 
 def test_funcCall():
     code = """
-    to do funcCall() output a String {
+    to do funcCall() output a Word {
         output 'hey'
     }
     Let funcCallVar be funcCall()
@@ -93,7 +93,7 @@ def test_invalidType():
 
 def test_wrongTypeRoutine():
     code = """
-    to do wrongTypeRoutine() output a String {
+    to do wrongTypeRoutine() output a word {
         output 'wrongTypeRoutine'
     }
     Let wtrVal be 2
@@ -104,10 +104,10 @@ def test_wrongTypeRoutine():
 
 def test_redeclaredRoutine():
     code = """
-    to do redRoutine() output a String {
+    to do redRoutine() output a word {
         output 'blah'
     }
-    to do redRoutine() output a String {
+    to do redRoutine() output a word {
         output 'blah2'
     }
     """
@@ -122,7 +122,7 @@ def test_invalidOp():
         runCode(code)
 def test_badVar():
     code = """
-    Let string be 'h'
+    Let word be 'h'
     """
     with pytest.raises(PARSER_ERROR):
         runCode(code)
@@ -144,7 +144,7 @@ def test_tooManySubscripts():
 
 def test_badOutputStmt():
     code = """
-    to do tBOS() output a String {
+    to do tBOS() output a word {
         output 2
     }
     """
@@ -154,7 +154,7 @@ def test_badOutputStmt():
 
 def test_badOutputStmtID():
     code = """
-    to do tBOSId() output a String {
+    to do tBOSId() output a word {
         Let bosIdVar be 2
         output bosIdVar
     }
@@ -193,7 +193,7 @@ def test_arrayQueryID():
 
 def test_routine_params():
     code = """
-    to do testRoutineParams(with trp0 as String, trp1 as Int) output a String {
+    to do testRoutineParams(with trp0 as word, trp1 as int) output a word {
         output 'hey'
     }
     testRoutineParams('hey2', 1)
@@ -273,7 +273,7 @@ def test_CallNonexistantRoutine():
 
 def test_defineThingInFunc():
     code = """
-    to do myRoutine() output a String {
+    to do myRoutine() output a word {
         thing MyThing {
             Let prop1 be 1
         }

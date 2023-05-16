@@ -1,4 +1,4 @@
-START
+START hangman
 Let hangWord always be 'hello'
 Let secretString be '_____'
 say 'Welcome. Try and guess my secret word: ' + secretString
@@ -14,44 +14,44 @@ Loop until finished is true {
     say 'Select a Letter'
     Let allowedLetter be false
     Let i be input
-    if input = 'h' then {
+    if i = 'h' then {
         if hSolved = false then {
             Let hSolved be true
             Let solvedLetters be solvedLetters + 1
         } otherwise {
-
+            say 'hey'
         }
         Let allowedLetter be true
     }
-    if input = 'e' then {
+    if i = 'e' then {
         if eSolved = false then {
             Let eSolved be true
             Let solvedLetters be solvedLetters + 1
         } otherwise {
-
+            say 'hey'
         }
         Let allowedLetter be true
     }
-    if input = 'l' then {
+    if i = 'l' then {
         if lSolved = false then {
             let lSolved be true
             Let solvedLetters be solvedLetters + 1
         } otherwise {
-
+            say 'hey'
         }
         Let allowedLetter be true
     }
-    if input = 'o' then {
+    if i = 'o' then {
         if oSolved = false then {
             let oSolved be true
             Let solvedLetters be solvedLetters + 1
         } otherwise {
-
+            say 'hey'
         }
         Let allowedLetter be true
     }
     if allowedLetter = false then {
-        Let strikeStr be strikes as string
+        Let strikeStr be strikes as String
         Let strikes be strikes + 1
         say 'The Letter \'' + i + '\' does not appear. You Have ' + strikeStr + ' strike(s):' + secretString
     }

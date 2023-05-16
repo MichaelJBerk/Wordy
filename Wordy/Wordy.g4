@@ -28,7 +28,7 @@ program: START IDENTIFIER statementList END;
 //assignStmt: assignNum | assignString | assignStringConst | assignNumConst | assignBool | assignBoolConst | assignArray | assignArrayConst;
 
 varValue:
-    IDENTIFIER | number | stringTerm | bool | array | arrayQuery | newThing | propCall | INPUT | expression;
+    IDENTIFIER | castStr | number | stringTerm | bool | array | arrayQuery | newThing | propCall | INPUT | expression;
 
 assignVar:
     LET variable (BE | '=') varValue;
@@ -46,7 +46,7 @@ castNum
     : (IDENTIFIER | factor) AS NUM_TYPE;
 
 castStr
-    : numTerm AS STRING;
+    : IDENTIFIER AS STRING_TYPE;
 
 //strArray
 //    : '[' (stringTerm)? (',' stringTerm)* ']';
@@ -61,7 +61,7 @@ arrayTerm
 array
     : '[' (arrayTerm) ? (',' arrayTerm)* ']';
 stringTerm
-    : (concat | stringConstant | IDENTIFIER | funcCall | castStr);
+    : concat | stringConstant | IDENTIFIER | funcCall;
 
 numTerm
     : factor (mulOp factor)*;
@@ -135,7 +135,6 @@ boolConst
 bool
     : boolConst | IDENTIFIER;
 
-characterConstant : CHARACTER ;
 stringConstant    : STRING ;
 variable : IDENTIFIER ;
      
@@ -170,12 +169,6 @@ factor
 concat
     : (STRING | IDENTIFIER) ('+'| AND) ( stringTerm )+;
 
-TYPE:
-    STRING_TYPE | NUM_TYPE| BOOL;
-
-NUM_TYPE:
-    INT | FLOAT;
-
 LET : L E T;
 BE: B E;
 ADD: A D D;
@@ -209,6 +202,13 @@ AN: A;
 START: S T A R T;
 END: E N D;
 NEW: N E W;
+CAST: C A S T;
+
+TYPE:
+    STRING_TYPE | NUM_TYPE | BOOL;
+
+NUM_TYPE:
+    INT | FLOAT;
     
 fragment A : ('a' | 'A') ;
 fragment B : ('b' | 'B') ;
@@ -263,7 +263,6 @@ WS      : [ \t]+ -> skip ;
 
 
 QUOTE     : '\'' ;
-CHARACTER : QUOTE CHARACTER_CHAR QUOTE ;
 STRING    : QUOTE STRING_CHAR* QUOTE ;
 
 fragment CHARACTER_CHAR : ~('\'')
@@ -271,4 +270,5 @@ fragment CHARACTER_CHAR : ~('\'')
 
 fragment STRING_CHAR
                      : ~('\'')
+                     | '\\\''
                      ;

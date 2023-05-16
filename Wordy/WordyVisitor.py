@@ -169,11 +169,6 @@ class WordyVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by WordyParser#characterConstant.
-    def visitCharacterConstant(self, ctx:WordyParser.CharacterConstantContext):
-        return self.visitChildren(ctx)
-
-
     # Visit a parse tree produced by WordyParser#stringConstant.
     def visitStringConstant(self, ctx:WordyParser.StringConstantContext):
         return self.visitChildren(ctx)

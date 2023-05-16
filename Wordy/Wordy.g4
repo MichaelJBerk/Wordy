@@ -28,7 +28,7 @@ program: START IDENTIFIER statementList END;
 //assignStmt: assignNum | assignString | assignStringConst | assignNumConst | assignBool | assignBoolConst | assignArray | assignArrayConst;
 
 varValue:
-    IDENTIFIER | castStr | number | stringTerm | bool | array | arrayQuery | newThing | propCall | INPUT | expression;
+    IDENTIFIER | number | stringTerm | bool | array | arrayQuery | newThing | propCall | INPUT | expression;
 
 assignVar:
     LET variable (BE | '=') varValue;
@@ -46,7 +46,7 @@ castNum
     : (IDENTIFIER | factor) AS NUM_TYPE;
 
 castStr
-    : IDENTIFIER AS STRING_TYPE;
+    : (IDENTIFIER | factor) AS STRING_TYPE;
 
 //strArray
 //    : '[' (stringTerm)? (',' stringTerm)* ']';
@@ -61,7 +61,7 @@ arrayTerm
 array
     : '[' (arrayTerm) ? (',' arrayTerm)* ']';
 stringTerm
-    : concat | stringConstant | IDENTIFIER | funcCall;
+    : concat | stringConstant | IDENTIFIER | funcCall | castStr;
 
 numTerm
     : factor (mulOp factor)*;
@@ -99,10 +99,10 @@ propCall:
 relOpExpr
     : numExpression relOp numExpression
 	| stringTerm relOp stringTerm
-	| bool relOp bool;
+	| bool (relOp bool)?;
 
 ifStmt
-    : IF (relOpExpr | bool) THEN curlyStatementList (OTHERWISE curlyStatementList)?;
+    : IF relOpExpr THEN curlyStatementList (OTHERWISE curlyStatementList)?;
 
 curlyStatementList
     : '{' statementList '}';
@@ -111,7 +111,7 @@ loopEachStmt
     : LOOP FOR EACH IDENTIFIER IN (array | IDENTIFIER) curlyStatementList;
 
 loopUntilStment
-    : LOOP UNTIL (relOpExpr | bool) curlyStatementList;
+    : LOOP UNTIL relOpExpr curlyStatementList;
 
 loopStmt
     : loopEachStmt
@@ -179,7 +179,7 @@ TO: T O;
 DO: D O;
 WITH: W I T H;
 AS: A S;
-STRING_TYPE: S T R I N G;
+STRING_TYPE: W O R D | S T R I N G S;
 INT: I N T;
 FLOAT: F L O A T | R E A L;
 OUTPUT: O U T P U T;

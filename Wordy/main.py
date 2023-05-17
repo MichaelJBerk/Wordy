@@ -19,7 +19,7 @@ class WListener(ConsoleErrorListener):
 def main(args):
 
     if len(args) < 2:
-        file = "samples/visitTest.wordy"
+        file = "hangman.wordy"
     else:
         file = args[1]
 

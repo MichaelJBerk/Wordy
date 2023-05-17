@@ -1,4 +1,4 @@
-START
+START redeclared
 Let var be 2
 Let var always be 3
 END

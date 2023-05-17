@@ -1,4 +1,4 @@
-START
+START print
 Let name be 'Michael'
 print name
 print 'Hello, ' + name

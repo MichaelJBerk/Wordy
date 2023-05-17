@@ -1,4 +1,4 @@
-START
+START visitTest
 Let val always be 1
 Let val be 2
 END

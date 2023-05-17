@@ -24,8 +24,10 @@ def main(args):
         file = args[1]
 
     code = open(file, 'r').read()
-    # parseAndVisit(code)
-    secondPass(code)
+    parseAndVisit(code)
+    java = open("hangman.java", "w")
+    java.write(secondPass(code))
+    java.close()
 
 def parseAndVisit(code):
     print("Code:" + code)
@@ -59,8 +61,8 @@ def secondPass(code):
     programId = SymTableEntry("wordyPrgm", Kind.UNDEFINED, symTable)
     visitor = ConverterVisitor()
 
-    print(visitor.visit(tree))
-    return visitor, tree
+    # print(visitor.visit(tree))
+    return visitor.visit(tree)
 
 if "pytest" not in sys.argv[0]:
     main(sys.argv)

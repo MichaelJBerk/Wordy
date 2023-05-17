@@ -18,8 +18,9 @@ Loop until finished is true {
         if hSolved = false then {
             Let hSolved be true
             Let solvedLetters be solvedLetters + 1
+            say 'the letter \'h\' appears 1 time'
         } otherwise {
-            say 'hey'
+            say '\'h\' was already guessed'
         }
         Let allowedLetter be true
     }
@@ -27,8 +28,9 @@ Loop until finished is true {
         if eSolved = false then {
             Let eSolved be true
             Let solvedLetters be solvedLetters + 1
+            say 'the letter \'e\' appears 1 time'
         } otherwise {
-            say 'hey'
+            say '\'e\' was already guessed'
         }
         Let allowedLetter be true
     }
@@ -36,8 +38,9 @@ Loop until finished is true {
         if lSolved = false then {
             let lSolved be true
             Let solvedLetters be solvedLetters + 1
+            say 'the letter \'l\' appears 2 times'
         } otherwise {
-            say 'hey'
+            say '\'l\' was already guessed'
         }
         Let allowedLetter be true
     }
@@ -45,8 +48,9 @@ Loop until finished is true {
         if oSolved = false then {
             let oSolved be true
             Let solvedLetters be solvedLetters + 1
+            say 'the letter \'o\' appears 1 time'
         } otherwise {
-            say 'hey'
+            say '\'o\' was already guessed'
         }
         Let allowedLetter be true
     }
@@ -58,7 +62,7 @@ Loop until finished is true {
     if strikes > 2 then {
        Let finished be true
     }
-    if solvedLetters > 4 then {
+    if solvedLetters >= 4 then {
         Let finished be true
     }
     Let guesses be guesses + 1
@@ -83,12 +87,13 @@ Loop until finished is true {
     } otherwise {
          Let secretString be secretString + '_'
     }
+    say secretString
 }
 Let guessDiv = guesses / solvedLetters
 Let guessPercent = guessDiv * 100
 Let gpString be guessPercent as word
 Let guessString be 'Your guess percentage was: ' + gpString + '%'
-if solvedLetters > 4 then {
+if solvedLetters >= 4 then {
     say 'You won with ' + guesses + ' guesses'
     say guessString
 } otherwise {

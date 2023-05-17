@@ -32,7 +32,7 @@ class ConverterVisitor(WordyVisitor):
     def visitProgram(self, ctx: WordyParser.ProgramContext):
         self.code_header += "import java.util.Scanner;\n"
         self.code_header += "public class " + ctx.IDENTIFIER().symbol.text + " {\n"
-        self.code_header += "Scanner input = new Scanner(System.in);\n"
+        self.code_header += "private static Scanner input = new Scanner(System.in);\n"
         self.main_code += "public static void main(String[] args){\n"
         self.visitStatementList(ctx.statementList())
         self.main_code += "}\n"
@@ -64,20 +64,22 @@ class ConverterVisitor(WordyVisitor):
     def visitAssignVar(self, ctx: WordyParser.AssignVarContext):
         var_name = self.visitVariable(ctx.variable())
         value = self.visitVarValue(ctx.varValue())
-        if ctx.varValue().IDENTIFIER() is not None:
-            self.writeCode(var_name + " = " + str(value) + ";\n")
-        if ctx.varValue().expression() is not None:
-            self.writeCode(var_name + " = " + str(value) + ";\n")
-            self.variables[var_name] = 0
-            self.variable_code += "private " + "int" + " " + var_name + ";\n"
-            return
         if var_name in self.variables:
             if isinstance(value, bool):
                 self.writeCode(var_name + " = " + str(value).lower() + ";\n")
                 return
             if ctx.varValue().INPUT() is not None:
                 value = "input.next()"
+            if value is "":
+                value = "\"\""
             self.writeCode(var_name + " = " + str(value) + ";\n")
+            return
+        if ctx.varValue().IDENTIFIER() is not None:
+            self.writeCode(var_name + " = " + str(value) + ";\n")
+        if ctx.varValue().expression() is not None:
+            self.writeCode(var_name + " = " + str(value) + ";\n")
+            self.variables[var_name] = 0
+            self.variable_code += "private static " + "int" + " " + var_name + ";\n"
             return
         val_type = ""
         val_str = ""
@@ -94,7 +96,14 @@ class ConverterVisitor(WordyVisitor):
             else:
                 val_type += self.types.get(type(value))
             if type(value) is str and not value.startswith("new String("):
-                val_str = "\"" + value + "\""
+                if ctx.varValue().stringTerm().concat() is None:
+                    val_str = "\"" + value + "\""
+                else:
+                    val_str = str(value)
+                    self.variables[var_name] = ""
+                    self.variable_code += "private static " + val_type + " " + var_name + ";\n"
+                    self.writeCode(var_name + " = " + str(value) + ";\n")
+                    return
             else:
                 val_str = str(value)
                 if isinstance(value, bool):
@@ -105,17 +114,17 @@ class ConverterVisitor(WordyVisitor):
         elif ctx.varValue().propCall() is not None:
             val_type += self.types[type(self.variables[value])]
             self.variables[var_name] = val_str
-            self.variable_code += "private " + val_type + " " + var_name + ";\n"
+            self.variable_code += "private static " + val_type + " " + var_name + ";\n"
         if ctx.varValue().IDENTIFIER() is not None or ctx.varValue().INPUT() is not None:
             self.variables[var_name] = value
-            self.variable_code += "private " + val_type + " " + var_name + ";\n"
+            self.variable_code += "private static " + val_type + " " + var_name + ";\n"
             return
         if ctx.varValue().stringTerm() is not None and value.startswith("new String("):
             self.variables[var_name] = self.variables.get(value[11: len(value) - 1])
-            self.variable_code += "private " + val_type + " " + var_name + ";\n"
+            self.variable_code += "private static " + val_type + " " + var_name + ";\n"
             return
         self.variables[var_name] = value
-        self.variable_code += "private " + val_type + " " + var_name + " = " + val_str + ";\n"
+        self.variable_code += "private static " + val_type + " " + var_name + " = " + val_str + ";\n"
 
     def visitAssignVarConst(self, ctx: WordyParser.AssignVarConstContext):
         var_name = self.visitVariable(ctx.variable())
@@ -136,7 +145,7 @@ class ConverterVisitor(WordyVisitor):
             val_type += ctx.varValue().newThing().IDENTIFIER().symbol.text
             val_str += "new " + val_type
         self.variables[var_name] = value
-        self.variable_code += "private final " + val_type + " " + var_name + " = " + str(val_str) + ";\n"
+        self.variable_code += "private static final " + val_type + " " + var_name + " = " + str(val_str) + ";\n"
 
     def visitDefParam(self, ctx: WordyParser.DefParamContext):
         return str(self.types.get(ctx.returnType()) + " " + str(ctx.IDENTIFIER()))
@@ -219,8 +228,8 @@ class ConverterVisitor(WordyVisitor):
 
     def visitCastStr(self, ctx: WordyParser.CastStrContext):
         if ctx.IDENTIFIER() is not None:
-            return "new String(" + ctx.IDENTIFIER().symbol.text + ")"
-        return "new String(" + str(self.visit(ctx.factor())) + ")"
+            return "new String(String.valueOf(" + ctx.IDENTIFIER().symbol.text + "))"
+        return "new String(String.valueOf(" + str(self.visit(ctx.factor())) + "))"
 
     def visitArray(self, ctx: WordyParser.ArrayContext):
         array = []
@@ -299,6 +308,12 @@ class ConverterVisitor(WordyVisitor):
             return val1
         op = self.visitRelOp(ctx.relOp())
         val2 = self.visit(ctx.getChild(2))
+        if ctx.stringTerm(1) is not None:
+            if ctx.getChild(2).IDENTIFIER() is None:
+                val2 = "\"" + val2 + "\""
+            if op is "==":
+                op = ".equals("
+                return str(val1) + str(op) + str(val2) + ")"
         if isinstance(val2, bool):
             val2 = str(val2).lower()
         return str(val1) + str(op) + str(val2)

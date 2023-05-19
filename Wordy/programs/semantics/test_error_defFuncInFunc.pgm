@@ -1,0 +1,8 @@
+START prgm
+to do myRoutine() output a String {
+        to do routine2() output a String {
+            output 'hey2'
+        }
+        output 'hey1'
+    }
+END

@@ -1,0 +1,6 @@
+START prgm
+ to do tBOSId() output a word {
+        Let bosIdVar be 2
+        output bosIdVar
+    }
+END

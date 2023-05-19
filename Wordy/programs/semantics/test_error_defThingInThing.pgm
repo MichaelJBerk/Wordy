@@ -1,0 +1,8 @@
+START prgm
+thing MyThing {
+        thing MyThing2 {
+            Let prop2 be 'hey'
+        }
+        Let prop1 be 1
+    }
+END

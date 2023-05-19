@@ -182,7 +182,7 @@ class ConverterVisitor(WordyVisitor):
         self.main = 2
         return_type = ""
         if ctx.returnType() is not None:
-            return_type += self.types.get(ctx.returnType())
+            return_type += str(self.types.get(ctx.returnType()))
         else:
             return_type += "void"
         params = ""
@@ -193,7 +193,7 @@ class ConverterVisitor(WordyVisitor):
                 params += ", " + self.visitDefParam(ctx.defParam(0))
                 i += 1
         self.routine_code += "public " + return_type + " " + ctx.IDENTIFIER().symbol.text + " (" + params + "){\n"
-        self.routine_code += self.visitFuncBody(ctx.funcBody())
+        self.routine_code += str(self.visitFuncBody(ctx.funcBody()))
         self.routine_code += "}\n"
         self.main = 1
 

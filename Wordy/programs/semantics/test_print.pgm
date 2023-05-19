@@ -1,0 +1,5 @@
+START prgm
+Let printName be 'Michael'
+print printName
+print 'Hello, ' + printName
+END

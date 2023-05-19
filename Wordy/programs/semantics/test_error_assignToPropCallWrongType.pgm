@@ -1,0 +1,8 @@
+START prgm
+thing MyThing {
+        Let prop1 be 'blah3'
+    }
+    Let val be 1
+    Let thing1 be new MyThing
+    Let val be thing1.prop1
+END

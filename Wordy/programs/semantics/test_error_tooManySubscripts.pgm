@@ -1,0 +1,4 @@
+START prgm
+Let tmsArr = ['hey']
+Let tmsArrVal = tmsArr[0][1]
+END

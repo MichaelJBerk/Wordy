@@ -1,0 +1,7 @@
+START prgm
+to do testRoutineParams(with trp0 as word, trp1 as int) output a word {
+        output 'hey'
+    }
+    testRoutineParams('hey2', 1)
+END
+//Errors on Converter

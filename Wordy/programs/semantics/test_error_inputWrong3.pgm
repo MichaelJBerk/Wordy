@@ -1,0 +1,6 @@
+START prgm
+    let val be input
+    thing MyThing {
+        Let prop1 be val
+    }
+END

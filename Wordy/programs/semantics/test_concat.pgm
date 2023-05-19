@@ -1,0 +1,3 @@
+START prgm
+Let tconcat be ('hey' + 'hwy3')
+END

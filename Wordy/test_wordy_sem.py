@@ -46,7 +46,7 @@ def test_redeclaredConst():
     Let trc1 be 2
     Let trc1 always be 3
     """
-    with pytest.raises(ERROR_REDECLARED_ID):
+    with pytest.raises(REDECLARED_IDENTIFIER):
         runCode(constCode)
 
 def test_redeclaredVar():
@@ -54,14 +54,14 @@ def test_redeclaredVar():
         Let trv1 always be 2
         let trv1 be 3
         """
-    with pytest.raises(ERROR_REDECLARED_ID):
+    with pytest.raises(REDECLARED_IDENTIFIER):
         runCode(varCode)
 
 def test_undeclared():
     code = """
     print testUndeclared
     """
-    with pytest.raises(ERROR_UNDECLARED_ID):
+    with pytest.raises(UNDECLARED_IDENTIFIER):
         runCode(code)
     #TODO: Test with factor/number
 
@@ -88,7 +88,7 @@ def test_invalidType():
     Let itype be 2
     Let itype be 'hey'
     """
-    with pytest.raises(ERROR_INCOMPATIBLE_ASSIGNMENT):
+    with pytest.raises(INCOMPATIBLE_ASSIGNMENT):
         runCode(code)
 
 def test_wrongTypeRoutine():
@@ -99,7 +99,7 @@ def test_wrongTypeRoutine():
     Let wtrVal be 2
     Let wtrVal be wrongTypeRoutine()
     """
-    with pytest.raises(ERROR_INCOMPATIBLE_ASSIGNMENT):
+    with pytest.raises(INCOMPATIBLE_ASSIGNMENT):
         runCode(code)
 
 def test_redeclaredRoutine():
@@ -111,7 +111,7 @@ def test_redeclaredRoutine():
         output 'blah2'
     }
     """
-    with pytest.raises(ERROR_REDECLARED_ID):
+    with pytest.raises(REDECLARED_IDENTIFIER):
         runCode(code)
 
 def test_invalidOp():
@@ -148,7 +148,7 @@ def test_badOutputStmt():
         output 2
     }
     """
-    with pytest.raises(ERROR_TYPE_MUST_BE_STRING):
+    with pytest.raises(TYPE_MUST_BE_STRING):
         runCode(code)
 
 
@@ -159,7 +159,7 @@ def test_badOutputStmtID():
         output bosIdVar
     }
     """
-    with pytest.raises(ERROR_TYPE_MUST_BE_STRING):
+    with pytest.raises(TYPE_MUST_BE_STRING):
         runCode(code)
 
 def test_idArray():
@@ -218,7 +218,7 @@ def test_thingRedeclared_def():
         Let prop be 'hey'
     }
     """
-    with pytest.raises(ERROR_REDECLARED_ID):
+    with pytest.raises(REDECLARED_IDENTIFIER):
         runCode(code)
 
 def test_thing_redeclared_prop():
@@ -228,7 +228,7 @@ def test_thing_redeclared_prop():
         Let prop1 be 'hey'
     }
     """
-    with pytest.raises(ERROR_REDECLARED_ID):
+    with pytest.raises(REDECLARED_IDENTIFIER):
         runCode(code)
 
 def test_assign_to_propCall():
@@ -251,7 +251,7 @@ def test_AssignToPropCallWrongType():
     Let thing1 be new MyThing
     Let val be thing1.prop1
     """
-    with pytest.raises(ERROR_INCOMPATIBLE_ASSIGNMENT):
+    with pytest.raises(INCOMPATIBLE_ASSIGNMENT):
         runCode(code)
 def test_InvalidField():
     code = """
@@ -261,7 +261,7 @@ def test_InvalidField():
     Let thing1 be new MyThing
     Let val be thing1.prop2
     """
-    with pytest.raises(ERROR_INVALID_FIELD):
+    with pytest.raises(INVALID_FIELD):
         runCode(code)
 
 def test_CallNonexistantRoutine():

@@ -1,0 +1,5 @@
+START prgm
+Let arrayToQuery = ['hey', 'hey2']
+Let arrayToQueryValue0 = arrayToQuery[0]
+END
+//Errors on Converter

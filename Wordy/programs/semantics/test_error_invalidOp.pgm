@@ -1,0 +1,3 @@
+START prgm
+    'hey' * 'hey2'
+END

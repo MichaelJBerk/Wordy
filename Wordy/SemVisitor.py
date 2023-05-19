@@ -89,7 +89,7 @@ class SemVisitor(WordyVisitor):
         thingPropId = ctx.IDENTIFIER(1).getText()
         thingVarPropEntry = thingVarSymTable.lookup(thingPropId)
         if thingVarPropEntry is None:
-            raise ERROR_INVALID_FIELD()
+            raise INVALID_FIELD()
         self.visit(thingVarPropEntry.value)
         ctx.type = thingVarPropEntry.varType
 
@@ -144,7 +144,7 @@ class SemVisitor(WordyVisitor):
         entry = self.symtable.lookup(variable)
         if entry is None:
             if throws:
-                raise ERROR_UNDECLARED_ID
+                raise UNDECLARED_IDENTIFIER
             else:
                 return None
         else:
@@ -160,7 +160,7 @@ class SemVisitor(WordyVisitor):
         #If already exists, throw error
         if currentEntry is not None:
             #TODO: Test this
-            raise ERROR_REDECLARED_ID()
+            raise REDECLARED_IDENTIFIER()
         symTable = SymTable(0)
         for i in range(len(ctx.assignStmt())):
             stmt = ctx.assignStmt(i)
@@ -173,7 +173,7 @@ class SemVisitor(WordyVisitor):
             propId = assign.variable().getText()
             existingPropEntry = symTable.lookup(propId)
             if existingPropEntry is not None:
-                raise ERROR_REDECLARED_ID()
+                raise REDECLARED_IDENTIFIER()
             if assign.varValue().INPUT() is not None or assign.varValue().getText() in self.usedAsInput:
                 raise ERROR_INPUT_USED_INCORRECTLY()
             self.visit(assign.varValue())
@@ -203,7 +203,7 @@ class SemVisitor(WordyVisitor):
             else:
                 redeclared = (currentEntry.kind is Kind.CONSTANT)
             if redeclared is True:
-                raise ERROR_REDECLARED_ID()
+                raise REDECLARED_IDENTIFIER()
             entryValue = currentEntry.value
             if varValue is not None:
                 self.visit(varValue)
@@ -211,7 +211,7 @@ class SemVisitor(WordyVisitor):
                 lType: VarType = entryValue.type
                 rType: VarType = varValue.type
                 if rType is not lType:
-                    raise ERROR_INCOMPATIBLE_ASSIGNMENT()
+                    raise INCOMPATIBLE_ASSIGNMENT()
 
         value = varValue
         if varValue.__class__ is WordyParser.VarValueContext and varValue.newThing() is not None:
@@ -245,7 +245,7 @@ class SemVisitor(WordyVisitor):
         if ctx.IDENTIFIER():
             entry = self.symtable.lookup(ctx.IDENTIFIER().getText())
             if entry is None:
-                raise ERROR_UNDECLARED_ID()
+                raise UNDECLARED_IDENTIFIER()
             else:
                 if entry.value is not None:
                     return self.visit(entry.value)
@@ -257,7 +257,7 @@ class SemVisitor(WordyVisitor):
         variable = ctx.variable().IDENTIFIER().getText()
         entry = self.symtable.lookup(variable)
         if entry is None:
-            raise ERROR_UNDECLARED_ID()
+            raise UNDECLARED_IDENTIFIER()
         return entry.value
 
     def visitDefFunc(self, ctx:WordyParser.DefFuncContext):
@@ -267,7 +267,7 @@ class SemVisitor(WordyVisitor):
         funcId = ctx.IDENTIFIER().getText()
         currentEntry = self.symtable.lookup(funcId)
         if currentEntry is not None:
-            raise ERROR_REDECLARED_ID()
+            raise REDECLARED_IDENTIFIER()
         info = RoutineInfo()
         info.context = ctx
         outputTypeStr = ctx.returnType().getText().lower()
@@ -300,7 +300,7 @@ class SemVisitor(WordyVisitor):
             raise ERROR_NAME_MUST_BE_PROCEDURE()
         value:RoutineInfo = entry.value
         if len(value.args) is not len(ctx.funcCallArg()):
-            raise ERROR_ARGUMENT_COUNT_MISMATCH()
+            raise ARGUMENT_COUNT_MISMATCH()
         # self.symtable.push()
         for i in range(len(ctx.funcCallArg())):
             arg = ctx.funcCallArg(i)
@@ -349,10 +349,10 @@ class SemVisitor(WordyVisitor):
             actualOutputType = outputVal.type
         if actualOutputType is not declaredOutputType:
             if declaredOutputType is VarType.STRING:
-                raise ERROR_TYPE_MUST_BE_STRING()
+                raise TYPE_MUST_BE_STRING()
             if declaredOutputType is VarType.BOOL:
-                raise ERROR_TYPE_MUST_BE_BOOLEAN()
+                raise TYPE_MUST_BE_BOOLEAN()
             if declaredOutputType is VarType.FLOAT or VarType.INT:
-                raise ERROR_TYPE_MUST_BE_NUMERIC()
-            raise ERROR_INVALID_RETURN_TYPE()
+                raise TYPE_MUST_BE_NUMERIC()
+            raise INVALID_RETURN_TYPE()
         return self.visitChildren(ctx)

@@ -1,0 +1,5 @@
+START prgm
+to do tBOS() output a word {
+        output 2
+    }
+END

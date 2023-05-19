@@ -1,0 +1,8 @@
+START prgm
+thing MyThing {
+        to do myRoutine() output a String {
+            output 'hey'
+        }
+        Let prop1 be 1
+    }
+END

@@ -1,0 +1,4 @@
+START prgm
+    Let bcStringVar be 'hey'
+    Let bcBool be 'hey' > 2
+END

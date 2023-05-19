@@ -1,0 +1,4 @@
+START prgm
+Let trv1 always be 2
+let trv1 be 3
+END

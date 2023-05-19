@@ -1,0 +1,4 @@
+START prgm
+Let itype be 2
+Let itype be 'hey'
+END

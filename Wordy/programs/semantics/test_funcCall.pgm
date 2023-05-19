@@ -1,0 +1,9 @@
+START prgm
+to do funcCall() output a Word {
+		say 'stuff'
+        output 'hey'
+    }
+    Let funcCallVar be funcCall()
+    print funcCallVar
+    print funcCall()
+END

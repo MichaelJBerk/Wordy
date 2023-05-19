@@ -1,0 +1,3 @@
+START prgm
+let arrayTypeMismatch = ['hey', 2]
+END

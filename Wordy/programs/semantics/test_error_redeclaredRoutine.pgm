@@ -1,0 +1,8 @@
+START prgm
+to do redRoutine() output a word {
+        output 'blah'
+    }
+    to do redRoutine() output a word {
+        output 'blah2'
+    }
+END

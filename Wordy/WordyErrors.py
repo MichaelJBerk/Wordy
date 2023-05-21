@@ -3,7 +3,7 @@ class ERROR_NAME_MUST_BE_PROCEDURE(Exception):
     def __init__(self): super().__init__("Must be a procedure name")
 
 class UNDECLARED_IDENTIFIER(Exception):
-    def __init__(self): super().__init__("Undeclared Identifier")
+    def __init__(self): super().__init__("Undeclared identifier")
 
 class REDECLARED_IDENTIFIER(Exception):
     def __init__(self): super().__init__("Redeclared identifier")
@@ -12,10 +12,10 @@ class INVALID_TYPE(Exception):
     def __init__(self): super().__init__("Invalid type")
 
 class TYPE_MISMATCH(Exception):
-    def __init__(self): super().__init__("Type Mismatch")
+    def __init__(self): super().__init__("Type mismatch")
 
 class INVALID_OPERATOR(Exception):
-    def __init__(self):super().__init__("Invalid Operator")
+    def __init__(self):super().__init__("Invalid operator")
 
 class INCOMPATIBLE_ASSIGNMENT(Exception):
     def __init__(self):super().__init__("Incompatible assignment")

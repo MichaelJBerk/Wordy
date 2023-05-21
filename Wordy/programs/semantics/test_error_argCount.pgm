@@ -1,0 +1,8 @@
+START prgm
+to do myFunc(arg1 as Word, arg2 as Word) output a Word {
+	say 'hey'
+	output 'hey'
+}
+myFunc(0,1,2)
+
+END
